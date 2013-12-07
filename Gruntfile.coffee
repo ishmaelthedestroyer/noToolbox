@@ -210,7 +210,7 @@ module.exports = (grunt) ->
         src: [
           '<%= files.css %>'
         ]
-        dest: '<%= dir.dist %>css/style.css'
+        dest: '<%= dir.dist %>css/ngToolboxx.css'
         options:
           compile: true
           compress: false
