@@ -20,4 +20,5 @@ angular.module 'ngToolboxx', [
   'bxQueue'
   'bxSession'
   'bxSocket'
+  'bxUtil'
 ]
