@@ -17,7 +17,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
         return deferred.resolve(true);
       });
     })();
-    $rootScope.$on('Session:loaded', function(event, data) {
+    $rootScope.$on('session:loaded', function(event, data) {
       Logger.debug('Updated session.', data);
       return session = data;
     });

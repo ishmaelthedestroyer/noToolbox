@@ -53,7 +53,7 @@ angular.module('bxSession.session', [])
     else
       scope.$apply fn
 
-    scope.$emit 'bxSession:' + emit, session
+    scope.$emit 'session:' + emit, session
 
   @$get = () ->
     bootstrap: (_rootScope, _http, _q) ->
@@ -148,23 +148,28 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 .provider 'bxAuth', ->
   bxSession = null
   $state = null
+  $route = null
   $q = null
 
   @auth = (options) ->
     return ->
-      if !bxSession || !$state || !$q
+      if !bxSession || !$state || !$route || !$q
         err = new Error 'bxAuth dependencies not initialized.'
         console.log 'ERROR! bxAuth not initialized.', err
         throw err
         return null
 
-      if !('reqAuth' of options)
+      if !('authKey' of options)
+        throw new Error 'bxAuth requires options.authKey ' +
+          'in the options object'
+      else if !('reqAuth' of options)
         throw new Error 'bxAuth requires options.reqAuth ' +
           'in the options object'
-      if !('redirAuth' of options)
+      else if !('redirAuth' of options)
         throw new Error 'bxAuth requires options.redirAuth ' +
           'in the options object'
 
+      authKey = options.authKey
       reqAuth = options.reqAuth
       redirAuth = options.redirAuth
 
@@ -173,12 +178,15 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
       bxSession.load().then (session) ->
         if reqAuth
           # if not authenticated
-          if !session? or !Object.getOwnPropertyNames(session).length
+          if !session? || typeof session isnt 'object' or !(authKey of session)
             deferred.reject null
 
             # if not on reqAuth page, redirect
             if $state.current.name isnt reqAuth
               $state.go reqAuth
+            else
+              # else, refresh route
+              $route.reload()
           else
             deferred.resolve true
         else if redirAuth # if authentication required
@@ -189,6 +197,9 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
             # if not on redirAuth page, redirect
             if $state.current.name isnt redirAuth
               $state.go redirAuth
+            else
+              # else, refresh route
+              $route.reload()
           else
             deferred.resolve true
         else
@@ -197,9 +208,10 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
       deferred.promise
 
   @$get = () ->
-    bootstrap: (_state, _q, _bxSession) ->
+    bootstrap: (_state, _route, _q, _bxSession) ->
       bxSession = _bxSession
       $state = _state
+      $route = _route
       $q = _q
 
   return @
@@ -211,6 +223,7 @@ angular.module('bxSession', [ 'bxSession.auth', 'ui.router' ])
 .run [
   '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession'
   ($rootScope, $state, $http, $q, bxAuth, bxSession) ->
-    bxAuth.bootstrap $state, $q, bxSession
+    # inject objects into bxAuth + bxSession providers
+    bxAuth.bootstrap $state, $route, $q, bxSession
     bxSession.bootstrap $rootScope, $http, $q
 ]

@@ -588,7 +588,7 @@ angular.module('bxSession.session', []).provider('bxSession', function() {
     } else {
       scope.$apply(fn);
     }
-    return scope.$emit('bxSession:' + emit, session);
+    return scope.$emit('session:' + emit, session);
   };
   this.$get = function() {
     return {
@@ -697,34 +697,39 @@ angular.module('bxSession.session', []).provider('bxSession', function() {
 });
 
 angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', function() {
-  var $q, $state, bxSession;
+  var $q, $route, $state, bxSession;
   bxSession = null;
   $state = null;
+  $route = null;
   $q = null;
   this.auth = function(options) {
     return function() {
-      var deferred, err, redirAuth, reqAuth;
-      if (!bxSession || !$state || !$q) {
+      var authKey, deferred, err, redirAuth, reqAuth;
+      if (!bxSession || !$state || !$route || !$q) {
         err = new Error('bxAuth dependencies not initialized.');
         console.log('ERROR! bxAuth not initialized.', err);
         throw err;
         return null;
       }
-      if (!('reqAuth' in options)) {
+      if (!('authKey' in options)) {
+        throw new Error('bxAuth requires options.authKey ' + 'in the options object');
+      } else if (!('reqAuth' in options)) {
         throw new Error('bxAuth requires options.reqAuth ' + 'in the options object');
-      }
-      if (!('redirAuth' in options)) {
+      } else if (!('redirAuth' in options)) {
         throw new Error('bxAuth requires options.redirAuth ' + 'in the options object');
       }
+      authKey = options.authKey;
       reqAuth = options.reqAuth;
       redirAuth = options.redirAuth;
       deferred = $q.defer();
       bxSession.load().then(function(session) {
         if (reqAuth) {
-          if ((session == null) || !Object.getOwnPropertyNames(session).length) {
+          if ((session == null) || typeof session !== 'object' || !(authKey in session)) {
             deferred.reject(null);
             if ($state.current.name !== reqAuth) {
               return $state.go(reqAuth);
+            } else {
+              return $route.reload();
             }
           } else {
             return deferred.resolve(true);
@@ -734,6 +739,8 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
             deferred.reject(null);
             if ($state.current.name !== redirAuth) {
               return $state.go(redirAuth);
+            } else {
+              return $route.reload();
             }
           } else {
             return deferred.resolve(true);
@@ -747,9 +754,10 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
   };
   this.$get = function() {
     return {
-      bootstrap: function(_state, _q, _bxSession) {
+      bootstrap: function(_state, _route, _q, _bxSession) {
         bxSession = _bxSession;
         $state = _state;
+        $route = _route;
         return $q = _q;
       }
     };
@@ -759,7 +767,7 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
 
 angular.module('bxSession', ['bxSession.auth', 'ui.router']).run([
   '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession', function($rootScope, $state, $http, $q, bxAuth, bxSession) {
-    bxAuth.bootstrap($state, $q, bxSession);
+    bxAuth.bootstrap($state, $route, $q, bxSession);
     return bxSession.bootstrap($rootScope, $http, $q);
   }
 ]);
@@ -917,7 +925,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
         return deferred.resolve(true);
       });
     })();
-    $rootScope.$on('Session:loaded', function(event, data) {
+    $rootScope.$on('session:loaded', function(event, data) {
       Logger.debug('Updated session.', data);
       return session = data;
     });

@@ -21,7 +21,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
       Session.refresh().then (data) ->
         deferred.resolve true
 
-    $rootScope.$on 'Session:loaded', (event, data) ->
+    $rootScope.$on 'session:loaded', (event, data) ->
       Logger.debug 'Updated session.', data
       session = data
 
