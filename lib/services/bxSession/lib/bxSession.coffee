@@ -171,7 +171,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               # else, return generate random token + redirect to self
               console.log 'Page req auth. User already on page.' +
                 ' Generating  random token.'
-              $state.go redirAuth
+              $state.go redirAuth,
                 redirect: util.random 15
           else
             deferred.resolve true
@@ -188,7 +188,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               # else, return generate random token + redirect to self
               console.log 'Redirecting auth users. Already on redir.' +
                 ' Generating random token.'
-              $state.go redirAuth
+              $state.go redirAuth,
                 redirect: util.random 15
           else
             deferred.resolve true

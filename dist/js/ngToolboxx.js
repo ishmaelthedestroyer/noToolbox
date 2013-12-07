@@ -712,9 +712,9 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
               return $state.go(reqAuth);
             } else {
               console.log('Page req auth. User already on page.' + ' Generating  random token.');
-              return $state.go(redirAuth({
+              return $state.go(redirAuth, {
                 redirect: util.random(15)
-              }));
+              });
             }
           } else {
             return deferred.resolve(true);
@@ -727,9 +727,9 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
               return $state.go(redirAuth);
             } else {
               console.log('Redirecting auth users. Already on redir.' + ' Generating random token.');
-              return $state.go(redirAuth({
+              return $state.go(redirAuth, {
                 redirect: util.random(15)
-              }));
+              });
             }
           } else {
             return deferred.resolve(true);
