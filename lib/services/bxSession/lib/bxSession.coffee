@@ -56,7 +56,7 @@ angular.module('bxSession.session', [])
     scope.$emit 'bxSession:' + emit, session
 
   @$get = () ->
-    bootStrap: (_rootScope, _http, _q) ->
+    bootstrap: (_rootScope, _http, _q) ->
       scope = $rootScope = _rootScope
       $http = _http
       $q = _q
@@ -189,7 +189,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
       deferred.promise
 
   @$get = () ->
-    bootStrap: (_state, _q, _bxSession) ->
+    bootstrap: (_state, _q, _bxSession) ->
       bxSession = _bxSession
       $state = _state
       $q = _q
@@ -203,6 +203,6 @@ angular.module('bxSession', [ 'bxSession.auth', 'ui.router' ])
 .run [
   '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession'
   ($rootScope, $state, $http, $q, bxAuth, bxSession) ->
-    bxAuth.bootStrap $state, $q, bxSession
-    bxSession.bootStrap $rootScope, $http, $q
+    bxAuth.bootstrap $state, $q, bxSession
+    bxSession.bootstrap $rootScope, $http, $q
 ]
