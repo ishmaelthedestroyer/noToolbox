@@ -685,19 +685,22 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
   $q = null;
   this.auth = function(options) {
     return function() {
-      var authKey, deferred, err, redirAuth, reqAuth;
-      if (!util || !bxSession || !$state || !$q) {
-        err = new Error('bxAuth dependencies not initialized.');
-        console.log('ERROR! bxAuth not initialized.', err);
+      var authKey, deferred, handleError, redirAuth, reqAuth;
+      handleError = function(err) {
+        err = new Error(err);
+        console.log(err);
         throw err;
-        return null;
+        return false;
+      };
+      if (!util || !bxSession || !$state || !$q) {
+        return handleError('ERROR! bxAuth not initialized.');
       }
       if (!('authKey' in options)) {
-        throw new Error('bxAuth requires options.authKey ' + 'in the options object');
+        return handleError('bxAuth requires options.authKey ' + 'in the options object');
       } else if (!('reqAuth' in options)) {
-        throw new Error('bxAuth requires options.reqAuth ' + 'in the options object');
+        return handleError('bxAuth requires options.reqAuth ' + 'in the options object');
       } else if (!('redirAuth' in options)) {
-        throw new Error('bxAuth requires options.redirAuth ' + 'in the options object');
+        return handleError('bxAuth requires options.redirAuth ' + 'in the options object');
       }
       authKey = options.authKey;
       reqAuth = options.reqAuth;
@@ -712,7 +715,7 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
               return $state.go(reqAuth);
             } else {
               console.log('Page req auth. User already on page.' + ' Generating  random token.');
-              return $state.go(redirAuth, {
+              return $state.transitionTo(redirAuth, {
                 redirect: util.random(15)
               });
             }
@@ -722,12 +725,12 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
         } else if (redirAuth) {
           if (session && Object.getOwnPropertyNames(session).length) {
             deferred.reject(null);
-            console.log('Redirecting auth user.');
             if ($state.current.name !== redirAuth) {
+              console.log('Redirecting auth user.');
               return $state.go(redirAuth);
             } else {
               console.log('Redirecting auth users. Already on redir.' + ' Generating random token.');
-              return $state.go(redirAuth, {
+              return $state.transitionTo(redirAuth, {
                 redirect: util.random(15)
               });
             }

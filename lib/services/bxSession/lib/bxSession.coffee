@@ -135,20 +135,23 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 
   @auth = (options) ->
     return ->
-      if !util || !bxSession || !$state || !$q
-        err = new Error 'bxAuth dependencies not initialized.'
-        console.log 'ERROR! bxAuth not initialized.', err
+      handleError = (err) ->
+        err = new Error err
+        console.log err
         throw err
-        return null
+        return false
+
+      if !util || !bxSession || !$state || !$q
+        return handleError 'ERROR! bxAuth not initialized.'
 
       if !('authKey' of options)
-        throw new Error 'bxAuth requires options.authKey ' +
+        return handleError 'bxAuth requires options.authKey ' +
           'in the options object'
       else if !('reqAuth' of options)
-        throw new Error 'bxAuth requires options.reqAuth ' +
+        return handleError 'bxAuth requires options.reqAuth ' +
           'in the options object'
       else if !('redirAuth' of options)
-        throw new Error 'bxAuth requires options.redirAuth ' +
+        return handleError 'bxAuth requires options.redirAuth ' +
           'in the options object'
 
       authKey = options.authKey
@@ -171,7 +174,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               # else, return generate random token + redirect to self
               console.log 'Page req auth. User already on page.' +
                 ' Generating  random token.'
-              $state.go redirAuth,
+              $state.transitionTo redirAuth,
                 redirect: util.random 15
           else
             deferred.resolve true
@@ -181,14 +184,14 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
             deferred.reject null
 
             # if not on redirAuth page, redirect
-            console.log 'Redirecting auth user.'
             if $state.current.name isnt redirAuth
+              console.log 'Redirecting auth user.'
               $state.go redirAuth
             else
               # else, return generate random token + redirect to self
               console.log 'Redirecting auth users. Already on redir.' +
                 ' Generating random token.'
-              $state.go redirAuth,
+              $state.transitionTo redirAuth,
                 redirect: util.random 15
           else
             deferred.resolve true
