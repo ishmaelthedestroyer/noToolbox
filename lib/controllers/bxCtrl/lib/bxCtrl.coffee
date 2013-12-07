@@ -5,7 +5,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
   ($scope, $rootScope, $q, Notify, Queue, Session, Logger) ->
     Notify.setScope $scope
     Queue.setScope $scope
-    session = {}
+    $scope.session = {}
 
     $scope.notifications = Notify.list()
     $scope.queue = Queue.list()
@@ -23,7 +23,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
 
     $rootScope.$on 'session:loaded', (event, data) ->
       Logger.debug 'Updated session.', data
-      session = data
+      $scope.session = data
 
     apply = (scope, fn) ->
       if scope.$$phase or scope.$root.$$phase

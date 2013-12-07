@@ -143,8 +143,7 @@ angular.module('bxSession.session', []).service('bxSession', [
 ]);
 
 angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', function() {
-  var $location, $q, $state, bxSession, util;
-  util = null;
+  var $location, $q, $state, bxSession;
   bxSession = null;
   $location = null;
   $state = null;
@@ -158,7 +157,7 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
         throw err;
         return false;
       };
-      if (!util || !bxSession || !$location || !$state || !$q) {
+      if (!bxSession || !$location || !$state || !$q) {
         return handleError('ERROR! bxAuth not initialized.');
       }
       if (!('authKey' in options)) {
@@ -173,17 +172,12 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
       redirAuth = options.redirAuth;
       deferred = $q.defer();
       bxSession.load().then(function(session) {
-        var token;
         if (reqAuth) {
           if ((session == null) || typeof session !== 'object' || !(authKey in session)) {
             deferred.resolve(null);
             if ($state.current.name !== reqAuth) {
-              console.log('Page req auth. User not auth. Redirect to ');
               return $state.go(reqAuth);
             } else {
-              token = util.random(15);
-              console.log('Page req auth. User already on page.' + ' Generating  random token: ' + token);
-              console.log($state);
               return $location.path($state.current.url);
             }
           } else {
@@ -196,9 +190,6 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
               console.log('Redirecting auth user.');
               return $state.go(redirAuth);
             } else {
-              token = util.random(15);
-              console.log('Redirecting auth users. Already on redir.');
-              console.log($state);
               return $location.path($state.current.url);
             }
           } else {
@@ -213,20 +204,19 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
   };
   this.$get = function() {
     return {
-      bootstrap: function(_location, _state, _q, _bxSession, _util) {
+      bootstrap: function(_location, _state, _q, _bxSession) {
         $location = _location;
         $state = _state;
         $q = _q;
-        bxSession = _bxSession;
-        return util = _util;
+        return bxSession = _bxSession;
       }
     };
   };
   return this;
 });
 
-angular.module('bxSession', ['ui.router', 'bxSession.auth', 'bxUtil']).run([
-  '$rootScope', '$state', '$location', '$http', '$q', 'bxAuth', 'bxSession', 'bxUtil', function($rootScope, $state, $location, $http, $q, bxAuth, bxSession, bxUtil) {
-    return bxAuth.bootstrap($location, $state, $q, bxSession, bxUtil);
+angular.module('bxSession', ['ui.router', 'bxSession.auth']).run([
+  '$rootScope', '$state', '$location', '$http', '$q', 'bxAuth', 'bxSession', function($rootScope, $state, $location, $http, $q, bxAuth, bxSession) {
+    return bxAuth.bootstrap($location, $state, $q, bxSession);
   }
 ]);

@@ -128,7 +128,6 @@ angular.module('bxSession.session', [])
 angular.module('bxSession.auth', [ 'bxSession.session' ])
 
 .provider 'bxAuth', ->
-  util = null
   bxSession = null
   $location = null
   $state = null
@@ -142,7 +141,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
         throw err
         return false
 
-      if !util || !bxSession || !$location || !$state || !$q
+      if !bxSession || !$location || !$state || !$q
         return handleError 'ERROR! bxAuth not initialized.'
 
       if !('authKey' of options)
@@ -169,14 +168,10 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 
             # if not on reqAuth page, redirect
             if $state.current.name isnt reqAuth
-              console.log 'Page req auth. User not auth. Redirect to '
               $state.go reqAuth
             else
-              # else, return generate random token + redirect to self
-              token = util.random 15
-              console.log 'Page req auth. User already on page.' +
-                ' Generating  random token: ' + token
-              console.log $state
+              # already @ redirect target. this is a hack to fix the url
+              # https://github.com/angular-ui/ui-router/issues/242
               $location.path $state.current.url
           else
             deferred.resolve true
@@ -190,10 +185,8 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               console.log 'Redirecting auth user.'
               $state.go redirAuth
             else
-              # else, return generate random token + redirect to self
-              token = util.random 15
-              console.log 'Redirecting auth users. Already on redir.'
-              console.log $state
+              # already @ redirect target. this is a hack to fix the url
+              # https://github.com/angular-ui/ui-router/issues/242
               $location.path $state.current.url
           else
             deferred.resolve true
@@ -203,23 +196,21 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
       deferred.promise
 
   @$get = () ->
-    bootstrap: (_location, _state, _q, _bxSession, _util) ->
+    bootstrap: (_location, _state, _q, _bxSession) ->
       $location = _location
       $state = _state
       $q = _q
       bxSession = _bxSession
-      util = _util
 
   return @
 
 
 
-angular.module('bxSession', [ 'ui.router', 'bxSession.auth', 'bxUtil' ])
+angular.module('bxSession', [ 'ui.router', 'bxSession.auth' ])
 
 .run [
-  '$rootScope', '$state', '$location', '$http', '$q',
-  'bxAuth', 'bxSession', 'bxUtil'
-  ($rootScope, $state, $location, $http, $q, bxAuth, bxSession, bxUtil) ->
+  '$rootScope', '$state', '$location', '$http', '$q','bxAuth', 'bxSession'
+  ($rootScope, $state, $location, $http, $q, bxAuth, bxSession) ->
     # inject dependencies into bxAuth provider
-    bxAuth.bootstrap $location, $state, $q, bxSession, bxUtil
+    bxAuth.bootstrap $location, $state, $q, bxSession
 ]
