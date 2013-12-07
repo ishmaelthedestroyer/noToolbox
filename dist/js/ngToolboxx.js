@@ -723,14 +723,18 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
         if (reqAuth) {
           if ((session == null) || !Object.getOwnPropertyNames(session).length) {
             deferred.reject(null);
-            return $state.go(reqAuth);
+            if ($state.current.name !== reqAuth) {
+              return $state.go(reqAuth);
+            }
           } else {
             return deferred.resolve(true);
           }
         } else if (redirAuth) {
           if (session && Object.getOwnPropertyNames(session).length) {
             deferred.reject(null);
-            return $state.go(redirAuth);
+            if ($state.current.name !== redirAuth) {
+              return $state.go(redirAuth);
+            }
           } else {
             return deferred.resolve(true);
           }
@@ -895,11 +899,11 @@ angular.module('bxSocket', []).service('bxSocket', [
 ]);
 
 angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtrl', [
-  '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession', function($scope, $rootScope, $q, Notify, Queue, Session) {
+  '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession', 'bxLogger', function($scope, $rootScope, $q, Notify, Queue, Session, Logger) {
     var apply, session;
     Notify.setScope($scope);
     Queue.setScope($scope);
-    session = null;
+    session = {};
     $scope.notifications = Notify.list();
     $scope.queue = Queue.list();
     $scope.removeNotification = function(index) {
@@ -914,6 +918,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
       });
     })();
     $rootScope.$on('Session:loaded', function(event, data) {
+      Logger.debug('Updated session.', data);
       return session = data;
     });
     return apply = function(scope, fn) {

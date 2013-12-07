@@ -172,15 +172,23 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 
       bxSession.load().then (session) ->
         if reqAuth
+          # if not authenticated
           if !session? or !Object.getOwnPropertyNames(session).length
             deferred.reject null
-            $state.go reqAuth
+
+            # if not on reqAuth page, redirect
+            if $state.current.name isnt reqAuth
+              $state.go reqAuth
           else
             deferred.resolve true
-        else if redirAuth
+        else if redirAuth # if authentication required
+          # if already authenticated
           if session and Object.getOwnPropertyNames(session).length
             deferred.reject null
-            $state.go redirAuth
+
+            # if not on redirAuth page, redirect
+            if $state.current.name isnt redirAuth
+              $state.go redirAuth
           else
             deferred.resolve true
         else

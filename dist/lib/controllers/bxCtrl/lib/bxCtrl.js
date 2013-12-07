@@ -1,9 +1,9 @@
 angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtrl', [
-  '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession', function($scope, $rootScope, $q, Notify, Queue, Session) {
+  '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession', 'bxLogger', function($scope, $rootScope, $q, Notify, Queue, Session, Logger) {
     var apply, session;
     Notify.setScope($scope);
     Queue.setScope($scope);
-    session = null;
+    session = {};
     $scope.notifications = Notify.list();
     $scope.queue = Queue.list();
     $scope.removeNotification = function(index) {
@@ -18,6 +18,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
       });
     })();
     $rootScope.$on('Session:loaded', function(event, data) {
+      Logger.debug('Updated session.', data);
       return session = data;
     });
     return apply = function(scope, fn) {
