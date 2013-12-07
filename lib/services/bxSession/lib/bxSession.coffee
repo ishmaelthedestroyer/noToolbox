@@ -127,6 +127,7 @@ angular.module('bxSession.session', [])
 
 
 angular.module('bxSession.auth', [ 'bxSession.session' ])
+
 .provider 'bxAuth', ->
   bxSession = null
   $state = null
@@ -181,6 +182,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 
 
 angular.module('bxSession', [ 'bxSession.auth', 'ui.router' ])
+
 .run [
   '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession'
   ($rootScope, $state, $http, $q, bxAuth, bxSession) ->

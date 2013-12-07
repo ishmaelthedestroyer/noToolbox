@@ -1,6 +1,6 @@
 angular.module('bxErrorInterceptor', ['bxNotify'])
 
-.factory 'bxErrorInterceptor', [
+.factory('bxErrorInterceptor', [
   '$rootScope', '$location', '$q', 'bxNotify'
   ($rootScope, $location, $q, Notify) ->
     (promise) ->
@@ -13,7 +13,7 @@ angular.module('bxErrorInterceptor', ['bxNotify'])
           $rootScope.$emit '401'
 
         $q.reject response
-]
+])
 
 .config ($httpProvider) ->
   $httpProvider.responseInterceptors.push 'ErrorInterceptor'
