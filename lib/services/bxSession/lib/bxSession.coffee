@@ -44,7 +44,8 @@ angular.module('bxSession.session', [])
         scope.$apply fn
 
       scope.$emit 'session:' + emit, session
-      scope.$emit 'session:loaded', session
+      if emit isnt 'loaded'
+        scope.$emit 'session:loaded', session
 
       config: (options) ->
         api.login = options.login if options.login
@@ -182,7 +183,6 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 
             # if not on redirAuth page, redirect
             if $state.current.name isnt redirAuth
-              console.log 'Redirecting auth user.'
               $state.go redirAuth
             else
               # already @ redirect target. this is a hack to fix the url

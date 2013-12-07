@@ -42,7 +42,9 @@ angular.module('bxSession.session', []).service('bxSession', [
         scope.$apply(fn);
       }
       scope.$emit('session:' + emit, session);
-      scope.$emit('session:loaded', session);
+      if (emit !== 'loaded') {
+        scope.$emit('session:loaded', session);
+      }
       return {
         config: function(options) {
           var err;
@@ -187,7 +189,6 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
           if (session && Object.getOwnPropertyNames(session).length) {
             deferred.reject(null);
             if ($state.current.name !== redirAuth) {
-              console.log('Redirecting auth user.');
               return $state.go(redirAuth);
             } else {
               return $location.path($state.current.url);
