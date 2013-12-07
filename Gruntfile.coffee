@@ -39,6 +39,7 @@ module.exports = (grunt) ->
         'lib/services/bxQueue/lib/bxQueue.*'
         'lib/services/bxSession/lib/bxSession.*'
         'lib/services/bxSocket/lib/bxSocket.*'
+        'lib/services/bxUtil/lib/bxUtil.*'
 
         'lib/controllers/bxCtrl/lib/bxCtrl.*'
 
