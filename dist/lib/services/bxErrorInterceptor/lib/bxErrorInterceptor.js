@@ -12,6 +12,6 @@ angular.module('bxErrorInterceptor', ['bxNotify']).factory('bxErrorInterceptor',
       });
     };
   }
-].config(function($httpProvider) {
+]).config(function($httpProvider) {
   return $httpProvider.responseInterceptors.push('ErrorInterceptor');
-}));
+});
