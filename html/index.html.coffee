@@ -1,12 +1,11 @@
 doctype 5
-html 'ng-controller':'AppCtrl', preventrightclick:'false', ->
+html 'ng-controller':'bxCtrl', preventrightclick:'false', ->
   head ->
-    title 'Topolabs | 3D Rendering + Printing'
-    meta name:'description', content:'Topolabs | 3D Rendering + Printing'
+    title ''
+    meta name:'description', content:''
     meta charset:'utf-8'
     link media:'screen', rel:'stylesheet', href: '/assets/css/vendor.css'
     link media:'screen', rel:'stylesheet', href: '/assets/css/app.css'
-    script src:'/socket.io/socket.io.js'
     script src:'/assets/js/vendor.js'
     script src:'/assets/js/app.js'
   body '.full-screen',  ->
