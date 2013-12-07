@@ -1,6 +1,6 @@
 {
   "name": "ngToolboxx",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Toolbelt for AngularJs applications.",
   "main": "dist/ngToolboxx.js",
   "repository": "https://github.com/ishmaelthedestroyer/ngToolboxx",
