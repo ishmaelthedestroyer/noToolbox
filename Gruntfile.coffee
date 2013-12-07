@@ -37,6 +37,7 @@ module.exports = (grunt) ->
         'lib/services/bxLogger/lib/bxLogger.*'
         'lib/services/bxNotify/lib/bxNotify.*'
         'lib/services/bxQueue/lib/bxQueue.*'
+        'lib/services/bxResource/lib/bxResource.*'
         'lib/services/bxSession/lib/bxSession.*'
         'lib/services/bxSocket/lib/bxSocket.*'
         'lib/services/bxUtil/lib/bxUtil.*'
