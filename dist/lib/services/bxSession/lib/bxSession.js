@@ -42,7 +42,7 @@ angular.module('bxSession.session', []).service('bxSession', [
         scope.$apply(fn);
       }
       scope.$emit('session:' + emit, session);
-      scope.$emit('session:loaded' + session);
+      scope.$emit('session:loaded', session);
       return {
         config: function(options) {
           var err;
@@ -182,25 +182,21 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
             } else {
               token = util.random(15);
               console.log('Page req auth. User already on page.' + ' Generating  random token: ' + token);
-              return $state.transitionTo(redirAuth, {
-                redirect: token
-              });
+              return console.log($state);
             }
           } else {
             return deferred.resolve(true);
           }
         } else if (redirAuth) {
           if (session && Object.getOwnPropertyNames(session).length) {
-            deferred.resolve(null);
+            deferred.reject(null);
             if ($state.current.name !== redirAuth) {
               console.log('Redirecting auth user.');
               return $state.go(redirAuth);
             } else {
               token = util.random(15);
-              console.log('Redirecting auth users. Already on redir.' + ' Generating random token: ' + token);
-              return $state.transitionTo(redirAuth, {
-                redirect: token
-              });
+              console.log('Redirecting auth users. Already on redir.');
+              return console.log($state);
             }
           } else {
             return deferred.resolve(true);

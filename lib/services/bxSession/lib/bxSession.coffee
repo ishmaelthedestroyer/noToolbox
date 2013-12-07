@@ -44,7 +44,7 @@ angular.module('bxSession.session', [])
         scope.$apply fn
 
       scope.$emit 'session:' + emit, session
-      scope.$emit 'session:loaded' + session
+      scope.$emit 'session:loaded', session
 
       config: (options) ->
         api.login = options.login if options.login
@@ -175,14 +175,13 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               token = util.random 15
               console.log 'Page req auth. User already on page.' +
                 ' Generating  random token: ' + token
-              $state.transitionTo redirAuth,
-                redirect: token
+              console.log $state
           else
             deferred.resolve true
         else if redirAuth # if meant to redirect authenticated users
           # if already authenticated
           if session and Object.getOwnPropertyNames(session).length
-            deferred.resolve null
+            deferred.reject null
 
             # if not on redirAuth page, redirect
             if $state.current.name isnt redirAuth
@@ -191,10 +190,8 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
             else
               # else, return generate random token + redirect to self
               token = util.random 15
-              console.log 'Redirecting auth users. Already on redir.' +
-                ' Generating random token: ' + token
-              $state.transitionTo redirAuth,
-                redirect: token
+              console.log 'Redirecting auth users. Already on redir.'
+              console.log $state
           else
             deferred.resolve true
         else
