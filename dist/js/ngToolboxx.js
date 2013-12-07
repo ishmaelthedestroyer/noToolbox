@@ -144,6 +144,14 @@ angular.module('bxOnDoubleClick', []).directive('bxOnDoubleClick', function($tim
   };
 });
 
+angular.module('bxOnKeyUp', []).directive('bxOnKeyUp', function($document) {
+  return function(scope, element, attr) {
+    return element.bind('keyup', function() {
+      return scope.$apply(attr.bxOnKeyUp);
+    });
+  };
+});
+
 angular.module('bxPreventRightClick', []).directive('bxPreventRightClick', function($document) {
   return function(scope, element, attr) {
     if (attr.bxPreventRightClick === 'true') {
