@@ -47,19 +47,19 @@ angular.module('bxSession.session', [])
       if emit isnt 'loaded'
         scope.$emit 'session:loaded', session
 
-      config: (options) ->
-        api.login = options.login if options.login
-        api.logout = options.logout if options.logout
-        api.signup = options.signup if options.signup
-        api.session = options.session if options.session
-        scope = options.scope if options.scope
+    config: (options) ->
+      api.login = options.login if options.login
+      api.logout = options.logout if options.logout
+      api.signup = options.signup if options.signup
+      api.session = options.session if options.session
+      scope = options.scope if options.scope
 
-        if options.onError
-          if typeof options.onError isnt 'function'
-            err = new Error 'bxSession.config() requires ' +
-              'options.onError to be typeof == function'
-          else
-            onError = options.onError
+      if options.onError
+        if typeof options.onError isnt 'function'
+          err = new Error 'bxSession.config() requires ' +
+            'options.onError to be typeof == function'
+        else
+          onError = options.onError
 
     # return methods
     load: () ->
@@ -97,7 +97,7 @@ angular.module('bxSession.session', [])
         password: password
       ).success (data, status, headers, config) ->
         update 'signup', () ->
-          update = data
+          session = data
           authenticated = true
           deferred.resolve true
       .error (data, status, headers, config) ->

@@ -22,6 +22,7 @@ angular.module('bxResource', ['ngResource'])
     ]);
 
     ###
+    # TODO: make sure resources aren't being recreated
     # try to find resource in resources
     return resources[key] for key of resources when key is name
 

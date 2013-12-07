@@ -627,37 +627,35 @@ angular.module('bxSession.session', []).service('bxSession', [
       }
       scope.$emit('session:' + emit, session);
       if (emit !== 'loaded') {
-        scope.$emit('session:loaded', session);
+        return scope.$emit('session:loaded', session);
       }
-      return {
-        config: function(options) {
-          var err;
-          if (options.login) {
-            api.login = options.login;
-          }
-          if (options.logout) {
-            api.logout = options.logout;
-          }
-          if (options.signup) {
-            api.signup = options.signup;
-          }
-          if (options.session) {
-            api.session = options.session;
-          }
-          if (options.scope) {
-            scope = options.scope;
-          }
-          if (options.onError) {
-            if (typeof options.onError !== 'function') {
-              return err = new Error('bxSession.config() requires ' + 'options.onError to be typeof == function');
-            } else {
-              return onError = options.onError;
-            }
-          }
-        }
-      };
     };
     return {
+      config: function(options) {
+        var err;
+        if (options.login) {
+          api.login = options.login;
+        }
+        if (options.logout) {
+          api.logout = options.logout;
+        }
+        if (options.signup) {
+          api.signup = options.signup;
+        }
+        if (options.session) {
+          api.session = options.session;
+        }
+        if (options.scope) {
+          scope = options.scope;
+        }
+        if (options.onError) {
+          if (typeof options.onError !== 'function') {
+            return err = new Error('bxSession.config() requires ' + 'options.onError to be typeof == function');
+          } else {
+            return onError = options.onError;
+          }
+        }
+      },
       load: function() {
         return loadSession(false);
       },
@@ -695,7 +693,7 @@ angular.module('bxSession.session', []).service('bxSession', [
           password: password
         }).success(function(data, status, headers, config) {
           return update('signup', function() {
-            update = data;
+            session = data;
             authenticated = true;
             return deferred.resolve(true);
           });
