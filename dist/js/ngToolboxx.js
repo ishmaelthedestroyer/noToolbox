@@ -556,9 +556,9 @@ angular.module('bxResource', ['ngResource']).service('bxResource', function() {
       */
 
       var resource, x, _i, _len;
-      if (x.name === name) {
-        for (_i = 0, _len = resources.length; _i < _len; _i++) {
-          x = resources[_i];
+      for (_i = 0, _len = resources.length; _i < _len; _i++) {
+        x = resources[_i];
+        if (x.name === name) {
           return x;
         }
       }
@@ -567,7 +567,7 @@ angular.module('bxResource', ['ngResource']).service('bxResource', function() {
           id: '@id'
         };
       }
-      url = url || '/api/' + name + '/:id';
+      url = url || '/api/' + name.toLower() + '/:id';
       resource = angular.module('bxResource').factory(name, [
         '$resource', function($resource) {
           return $resource(url, params);
