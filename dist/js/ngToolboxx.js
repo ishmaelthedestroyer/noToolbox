@@ -976,7 +976,7 @@ angular.module('bxUtil', []).service('bxUtil', function() {
 });
 
 angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtrl', [
-  '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession', 'bxLogger', function($scope, $rootScope, $q, Notify, Queue, Session, Logger) {
+  '$scope', '$rootScope', '$location', '$q', 'bxNotify', 'bxQueue', 'bxSession', 'bxLogger', function($scope, $rootScope, $location, $q, Notify, Queue, Session, Logger) {
     var apply;
     Notify.setScope($scope);
     Queue.setScope($scope);

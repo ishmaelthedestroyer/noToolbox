@@ -1,8 +1,10 @@
 angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
 
 .controller 'bxCtrl', [
-  '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession', 'bxLogger'
-  ($scope, $rootScope, $q, Notify, Queue, Session, Logger) ->
+  '$scope', '$rootScope', '$location', '$q',
+  'bxNotify', 'bxQueue', 'bxSession', 'bxLogger',
+  ($scope, $rootScope, $location, $q,
+  Notify, Queue, Session, Logger) ->
     Notify.setScope $scope
     Queue.setScope $scope
     $scope.session = {}
