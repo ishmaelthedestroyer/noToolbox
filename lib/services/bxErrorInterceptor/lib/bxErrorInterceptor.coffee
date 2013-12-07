@@ -16,4 +16,4 @@ angular.module('bxErrorInterceptor', ['bxNotify'])
 ])
 
 .config ($httpProvider) ->
-  $httpProvider.responseInterceptors.push 'ErrorInterceptor'
+  $httpProvider.responseInterceptors.push 'bxErrorInterceptor'
