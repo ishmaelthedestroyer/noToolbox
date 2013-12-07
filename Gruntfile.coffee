@@ -7,7 +7,7 @@ module.exports = (grunt) ->
 
     dist:
       html: 'dist/html/index'
-      js: 'dist/js/ngToolbox.js'
+      js: 'dist/js/ngToolboxx.js'
 
     files:
       meta: [
