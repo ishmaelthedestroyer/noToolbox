@@ -1,4 +1,5 @@
-angular.module('bxCtrl', [])
+angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
+
 .controller 'bxCtrl', [
   '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession'
   ($scope, $rootScope, $q, Notify, Queue, Session) ->

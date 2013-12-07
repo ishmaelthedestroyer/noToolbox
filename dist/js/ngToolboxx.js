@@ -72,6 +72,44 @@ angular.module('bxFireOnClick', []).directive('bxFireOnClick', function() {
   };
 });
 
+angular.module('bxFisheye', []).directive('bxFisheye', function($document) {
+  return function(scope, element, attr) {
+    var maxHeight, maxWidth, radius, scale, startHeight, startWidth;
+    scale = attr.fisheyescale || 0.8;
+    radius = attr.fisheyeradius || 70;
+    scale = parseFloat(scale);
+    radius = parseInt(radius);
+    startWidth = element.width();
+    startHeight = element.height();
+    maxWidth = startWidth + (startWidth * scale);
+    maxHeight = startHeight + (startHeight * scale);
+    return $document.on('mousemove', function(e) {
+      var centerX, centerY, h, percent, r, w, x, y;
+      centerX = element.offset().left + (element.width() / 2);
+      centerY = element.offset().top + (element.height() / 2);
+      x = Math.abs(e.pageX - centerX);
+      y = Math.abs(e.pageY - centerY);
+      r = Math.sqrt((x * x) + (y * y));
+      if (r < radius) {
+        percent = 1 - (r / radius);
+        w = startWidth + ((maxWidth - startWidth) * percent);
+        h = startHeight + ((maxHeight - startHeight) * percent);
+        return element.css({
+          width: w + 'px',
+          height: h + 'px'
+        });
+      } else {
+        if (element.width() !== startWidth || element.height() !== startHeight) {
+          return element.css({
+            width: startWidth + 'px',
+            height: startHeight + 'px'
+          });
+        }
+      }
+    });
+  };
+});
+
 angular.module('bxOnDoubleClick', []).directive('bxOnDoubleClick', function($timeout) {
   return function(scope, element, attr) {
     return element.bind('click', function(e) {
@@ -829,7 +867,7 @@ angular.module('bxSocket', []).service('bxSocket', [
   }
 ]);
 
-angular.module('bxCtrl', []).controller('bxCtrl', [
+angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtrl', [
   '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession', function($scope, $rootScope, $q, Notify, Queue, Session) {
     var apply, session;
     Notify.setScope($scope);

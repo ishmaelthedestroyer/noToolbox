@@ -22,7 +22,7 @@ module.exports = (grunt) ->
         'lib/directives/bxAnimateToCenter/lib/bxAnimateToCenter.*'
         'lib/directives/bxDraggable/lib/bxDraggable.*'
         'lib/directives/bxFireOnClick/lib/bxFireOnClick.*'
-        'lib/directives/bxFishEye/lib/bxFishEye.*'
+        'lib/directives/bxFisheye/lib/bxFisheye.*'
         'lib/directives/bxOnDoubleClick/lib/bxOnDoubleClick.*'
         'lib/directives/bxOnKeyUp/lib/bxOnKeyUp.*'
         'lib/directives/bxPreventRightClick/lib/bxPreventRightClick.*'
