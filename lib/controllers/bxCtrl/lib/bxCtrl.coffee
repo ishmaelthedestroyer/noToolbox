@@ -1,4 +1,5 @@
-app.controller 'bxCtrl', [
+angular.module('bxCtrl', [])
+.controller 'bxCtrl', [
   '$scope', '$rootScope', '$q', 'bxNotify', 'bxQueue', 'bxSession'
   ($scope, $rootScope, $q, Notify, Queue, Session) ->
     Notify.setScope $scope
