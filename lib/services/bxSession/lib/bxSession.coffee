@@ -178,12 +178,13 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 
       bxSession.load().then (session) ->
         if reqAuth
-          # if not authenticated
+          # if route requires auth but user not authenticated
           if !session? || typeof session isnt 'object' or !(authKey of session)
             deferred.reject null
 
             # if not on reqAuth page, redirect
             if $state.current.name isnt reqAuth
+              console.log 'Page req auth. User not auth. Redirect to '
               $state.go reqAuth
             else
               # else, return rejected promise
@@ -191,7 +192,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               return promise
           else
             deferred.resolve true
-        else if redirAuth # if authentication required
+        else if redirAuth # if meant to redirect authenticated users
           # if already authenticated
           if session and Object.getOwnPropertyNames(session).length
             deferred.reject null
@@ -200,9 +201,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
             if $state.current.name isnt redirAuth
               $state.go redirAuth
             else
-              # else, return rejected promise
-              promise = deferred.promise
-              return promise
+              # else, return generate random token + redirect to self
           else
             deferred.resolve true
         else
