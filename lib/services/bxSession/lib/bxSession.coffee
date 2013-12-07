@@ -221,8 +221,8 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 angular.module('bxSession', [ 'bxSession.auth', 'ui.router' ])
 
 .run [
-  '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession'
-  ($rootScope, $state, $http, $q, bxAuth, bxSession) ->
+  '$rootScope', '$state', '$route', '$http', '$q', 'bxAuth', 'bxSession'
+  ($rootScope, $state, $route, $http, $q, bxAuth, bxSession) ->
     # inject objects into bxAuth + bxSession providers
     bxAuth.bootstrap $state, $route, $q, bxSession
     bxSession.bootstrap $rootScope, $http, $q

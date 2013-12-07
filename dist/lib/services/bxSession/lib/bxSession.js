@@ -231,7 +231,7 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
 });
 
 angular.module('bxSession', ['bxSession.auth', 'ui.router']).run([
-  '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession', function($rootScope, $state, $http, $q, bxAuth, bxSession) {
+  '$rootScope', '$state', '$route', '$http', '$q', 'bxAuth', 'bxSession', function($rootScope, $state, $route, $http, $q, bxAuth, bxSession) {
     bxAuth.bootstrap($state, $route, $q, bxSession);
     return bxSession.bootstrap($rootScope, $http, $q);
   }
