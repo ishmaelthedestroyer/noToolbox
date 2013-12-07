@@ -130,6 +130,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 .provider 'bxAuth', ->
   util = null
   bxSession = null
+  $location = null
   $state = null
   $q = null
 
@@ -141,7 +142,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
         throw err
         return false
 
-      if !util || !bxSession || !$state || !$q
+      if !util || !bxSession || !$location || !$state || !$q
         return handleError 'ERROR! bxAuth not initialized.'
 
       if !('authKey' of options)
@@ -176,6 +177,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               console.log 'Page req auth. User already on page.' +
                 ' Generating  random token: ' + token
               console.log $state
+              $location.path $state.current.url
           else
             deferred.resolve true
         else if redirAuth # if meant to redirect authenticated users
@@ -192,6 +194,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               token = util.random 15
               console.log 'Redirecting auth users. Already on redir.'
               console.log $state
+              $location.path $state.current.url
           else
             deferred.resolve true
         else
@@ -200,10 +203,11 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
       deferred.promise
 
   @$get = () ->
-    bootstrap: (_state, _q, _bxSession, _util) ->
-      bxSession = _bxSession
+    bootstrap: (_location, _state, _q, _bxSession, _util) ->
+      $location = _location
       $state = _state
       $q = _q
+      bxSession = _bxSession
       util = _util
 
   return @
@@ -213,8 +217,9 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 angular.module('bxSession', [ 'ui.router', 'bxSession.auth', 'bxUtil' ])
 
 .run [
-  '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession', 'bxUtil'
-  ($rootScope, $state, $http, $q, bxAuth, bxSession, bxUtil) ->
+  '$rootScope', '$state', '$location', '$http', '$q',
+  'bxAuth', 'bxSession', 'bxUtil'
+  ($rootScope, $state, $location, $http, $q, bxAuth, bxSession, bxUtil) ->
     # inject dependencies into bxAuth provider
-    bxAuth.bootstrap $state, $q, bxSession, bxUtil
+    bxAuth.bootstrap $location, $state, $q, bxSession, bxUtil
 ]
