@@ -5,12 +5,6 @@ module.exports = (grunt) ->
       tmp: 'tmp/'
       dist: 'dist/'
 
-    dist:
-      client: 'dist/public/assets/js/app.js'
-      css: 'dist/public/assets/css/style.css'
-      vendorJS: 'dist/public/assets/js/vendor.js'
-      vendorCSS: 'dist/public/assets/css/vendor.css'
-
     files:
       meta: [
         'bower.json'
@@ -49,43 +43,13 @@ module.exports = (grunt) ->
         'public/favicon.ico'
       ]
       img: [
-        'public/common/img/**/*.*'
-        'public/common/img/*.*'
-        'public/assets/img/*.*'
-        'public/assets/img/icons/*.*'
+        'img/*.*'
       ]
       fonts: [
-        'public/common/css/fonts/**'
-        'public/assets/vendor/bootstrap/dist/fonts/*.*'
+        'fonts/**'
       ]
-      vendor:
-        css: [
-          'public/assets/vendor/bootstrap/dist/css/bootstrap.css'
-        ]
-        js: [
-          'public/assets/vendor/jquery/jquery.js'
-          'public/assets/vendor/angular/angular.js'
-          'public/assets/vendor/angular-ui-router/release/angular-ui-router.js'
-          'public/assets/vendor/angular-resource/angular-resource.js'
-          'public/assets/vendor/bootstrap/dist/js/bootstrap.js'
-          'public/assets/vendor/angular-bootstrap/ui-bootstrap.js'
-          'public/assets/vendor/angular-bootstrap/ui-bootstrap-tpls.js'
-          'public/assets/vendor/x-editable/dist/bootstrap3-editable/' +
-            'js/bootstrap-editable.js'
-          'public/assets/vendor/requirejs/require.js'
-        ]
       all: []
       clientTmp: []
-
-  for file in fileConfig.files.client
-    fileConfig.files.clientTmp.push 'tmp/'+file
-
-  fileConfig.files.all.push file for file in fileConfig.files.server
-  fileConfig.files.all.push file for file in fileConfig.files.client
-  fileConfig.files.all.push file for file in fileConfig.files.html
-  fileConfig.files.all.push file for file in fileConfig.files.css
-  fileConfig.files.all.push file for file in fileConfig.files.vendor.css
-  fileConfig.files.all.push file for file in fileConfig.files.vendor.js
 
   # load tasks
   require('load-grunt-tasks')(grunt)
@@ -100,7 +64,7 @@ module.exports = (grunt) ->
       '/** \n' +
       ' * <%= pkg.name %> - v<%= pkg.version %> - ' +
       '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      ' * <%= pkg.homepage %> \n' +
+      ' * <%= pkg.repository %> \n' +
       ' * \n' +
       ' * Copyright (c) <%= grunt.template.today("yyyy") %> ' +
       '<%= pkg.author %>\n' +
@@ -488,28 +452,3 @@ module.exports = (grunt) ->
     'changelog'
     'bump'
   ]
-
-  ###
-  grunt.registerTask 'lint', [
-    'jshint'
-    'coffeelint'
-  ]
-
-  grunt.registerTask 'build:prod', [
-    'lint'
-    'clean:tmp'
-    'clean:dist'
-    'compile'
-    'copy:meta'
-    'copy:fonts'
-    'copy:img'
-    'copy:favicon'
-    'concat:app'
-    'concat:vendor'
-    'recess:app'
-    'recess:vendor'
-    'clean:tmp'
-    'changelog'
-    'bump'
-  ]
-  ###

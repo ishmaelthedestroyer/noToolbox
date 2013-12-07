@@ -2,8 +2,8 @@
   "name": "ngToolboxx",
   "version": "0.0.1",
   "description": "Toolbelt for AngularJs applications.",
-  "main": "app.js",
-  "repository": "",
+  "main": "dist/ngToolboxx.js",
+  "repository": "https://github.com/ishmaelthedestroyer/ngToolboxx",
   "keywords": [
     "angular",
     "angularjs",

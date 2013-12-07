@@ -4,13 +4,12 @@ html 'ng-controller':'bxCtrl', preventrightclick:'false', ->
     title ''
     meta name:'description', content:''
     meta charset:'utf-8'
-    link media:'screen', rel:'stylesheet', href: '/assets/css/vendor.css'
-    link media:'screen', rel:'stylesheet', href: '/assets/css/app.css'
-    script src:'/assets/js/vendor.js'
-    script src:'/assets/js/app.js'
+    link media:'screen', rel:'stylesheet', href: '/vendor/ngToolboxx/css/ngToolboxx.css'
+    script src:'/assets/vendor/ngToolboxx/js/ngToolboxx.js'
+
   body '.full-screen',  ->
     div '.notification-container.ng-cloak', ->
-      div class:'alert alert-dismissable alert-{{notification.type}}',
+      div class:'.alert.alert-dismissable alert-{{notification.type}}',
       'ng-repeat':'notification in notifications', ->
         button '.close', type:'button', 'aria-hidden':'true',
         'ng-click':'removeNotification($index)', ->
@@ -38,12 +37,6 @@ html 'ng-controller':'bxCtrl', preventrightclick:'false', ->
                 button '.btn.btn-default.btn-sm.bg-orange', type: 'button', ->
                   span '.glyphicon.glyphicon-search', style:'color: #fff;', ->
           ul '.nav.navbar-nav.navbar-right', ->
-            li ->
-              a href: '/404', ->
-                em '404'
-            li ->
-              a href: '/contact', ->
-                em 'contact'
             li '.dropdown', ->
               a '.dropdown-toggle.text-white', href: '#', 'data-toggle': 'dropdown', ->
                 em 'account'
