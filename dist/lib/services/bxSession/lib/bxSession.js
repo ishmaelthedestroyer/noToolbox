@@ -3,7 +3,7 @@ angular.module('bxSession.session', []).service('bxSession', [
     var api, authenticated, loadSession, onError, scope, session, update;
     session = null;
     authenticated = false;
-    scope = null;
+    scope = $rootScope;
     onError = function() {
       session = null;
       return authenticated = false;
