@@ -588,7 +588,8 @@ angular.module('bxSession.session', []).provider('bxSession', function() {
     } else {
       scope.$apply(fn);
     }
-    return scope.$emit('session:' + emit, session);
+    scope.$emit('session:' + emit, session);
+    return scope.$emit('session:loaded' + session);
   };
   this.$get = function() {
     return {

@@ -5,6 +5,7 @@ angular.module('bxSession.session', [])
   authenticated = false
   scope = null
 
+  # TODO: emit error object
   onError = () ->
     session = null
     authenticated = false
@@ -54,6 +55,7 @@ angular.module('bxSession.session', [])
       scope.$apply fn
 
     scope.$emit 'session:' + emit, session
+    scope.$emit 'session:loaded' + session
 
   @$get = () ->
     bootstrap: (_rootScope, _http, _q) ->
