@@ -57,7 +57,7 @@ angular.module('bxSession.session', []).provider('bxSession', function() {
   };
   this.$get = function() {
     return {
-      bootStrap: function(_rootScope, _http, _q) {
+      bootstrap: function(_rootScope, _http, _q) {
         scope = $rootScope = _rootScope;
         $http = _http;
         return $q = _q;
@@ -104,13 +104,33 @@ angular.module('bxSession.session', []).provider('bxSession', function() {
           username: username,
           password: password
         }).success(function(data, status, headers, config) {
-          session = data;
           return update('login', function() {
+            session = data;
             authenticated = true;
             return deferred.resolve(true);
           });
         }).error(function(data, status, headers, config) {
-          session = null;
+          return update('error', function() {
+            onError && onError();
+            return deferred.reject(false);
+          });
+        });
+        return deferred.promise;
+      },
+      signup: function(username, password) {
+        var deferred;
+        checkBootstrap();
+        deferred = $q.defer();
+        $http.post(api.signup, {
+          username: username,
+          password: password
+        }).success(function(data, status, headers, config) {
+          return update('signup', function() {
+            update = data;
+            authenticated = true;
+            return deferred.resolve(true);
+          });
+        }).error(function(data, status, headers, config) {
           return update('error', function() {
             onError && onError();
             return deferred.reject(false);
@@ -123,13 +143,12 @@ angular.module('bxSession.session', []).provider('bxSession', function() {
         checkBootstrap();
         deferred = $q.defer();
         $http.get(api.logout).success(function(data, status, headers, config) {
-          session = null;
           return update('logout', function() {
+            session = null;
             authenticated = false;
             return deferred.resolve(true);
           });
         }).error(function(data, status, headers, config) {
-          session = null;
           return update('error', function() {
             onError && onError();
             return deferred.reject(false);
@@ -189,7 +208,7 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
   };
   this.$get = function() {
     return {
-      bootStrap: function(_state, _q, _bxSession) {
+      bootstrap: function(_state, _q, _bxSession) {
         bxSession = _bxSession;
         $state = _state;
         return $q = _q;
@@ -201,7 +220,7 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
 
 angular.module('bxSession', ['bxSession.auth', 'ui.router']).run([
   '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession', function($rootScope, $state, $http, $q, bxAuth, bxSession) {
-    bxAuth.bootStrap($state, $q, bxSession);
-    return bxSession.bootStrap($rootScope, $http, $q);
+    bxAuth.bootstrap($state, $q, bxSession);
+    return bxSession.bootstrap($rootScope, $http, $q);
   }
 ]);
