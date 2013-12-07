@@ -1,82 +1,66 @@
 angular.module('bxSession.session', [])
 
-.provider 'bxSession', () ->
-  session = null
-  authenticated = false
-  scope = null
-
-  # TODO: emit error object
-  onError = () ->
+.service 'bxSession', [
+  '$rootScope', '$http', '$q'
+  ($rootScope, $http, $q)->
     session = null
     authenticated = false
+    scope = null
 
-  api =
-    login: '/api/login'
-    logout: '/api/logout'
-    signup: '/api/signup'
-    session: '/api/session'
+    # TODO: emit error object
+    onError = () ->
+      session = null
+      authenticated = false
 
-  $rootScope = null
-  $http = null
-  $q = null
+    api =
+      login: '/api/login'
+      logout: '/api/logout'
+      signup: '/api/signup'
+      session: '/api/session'
 
-  checkBootstrap = () ->
-    if !$rootScope || !$http || !$q
-      err = new Error 'bxSession dependencies not initialized.'
-      console.log 'ERROR! bxSession not initialized.', err
-      throw err
-      return false
+    loadSession = (override) ->
+      deferred = $q.defer()
+      promise = deferred.promise
 
-  loadSession = (override) ->
-    checkBootstrap()
+      if !session or override
+        $http.get(api.session)
+        .success (data, status, headers, config) ->
+          update 'loaded', ->
+            session = data
+            deferred.resolve data
+        .error (data, status, headers, config) ->
+          update 'error', ->
+            onError && onError()
+            deferred.reject {}
+      else
+        deferred.resolve session
 
-    deferred = $q.defer()
-    promise = deferred.promise
+      promise
 
-    if !session or override
-      $http.get(api.session)
-      .success (data, status, headers, config) ->
-        update 'loaded', ->
-          session = data
-          deferred.resolve data
-      .error (data, status, headers, config) ->
-        update 'error', ->
-          onError && onError()
-          deferred.reject {}
-    else
-      deferred.resolve session
+    update = (emit, fn) ->
+      if scope.$$phase or scope.$root.$$phase
+        fn()
+      else
+        scope.$apply fn
 
-    promise
+      scope.$emit 'session:' + emit, session
+      scope.$emit 'session:loaded' + session
 
-  update = (emit, fn) ->
-    if scope.$$phase or scope.$root.$$phase
-      fn()
-    else
-      scope.$apply fn
+      config: (options) ->
+        api.login = options.login if options.login
+        api.logout = options.logout if options.logout
+        api.signup = options.signup if options.signup
+        api.session = options.session if options.session
+        scope = options.scope if options.scope
 
-    scope.$emit 'session:' + emit, session
-    scope.$emit 'session:loaded' + session
+        if options.onError
+          if typeof options.onError isnt 'function'
+            err = new Error 'bxSession.config() requires ' +
+              'options.onError to be typeof == function'
+          else
+            onError = options.onError
 
-  @$get = () ->
-    bootstrap: (_rootScope, _http, _q) ->
-      scope = $rootScope = _rootScope
-      $http = _http
-      $q = _q
-
-    config: (options) ->
-      api.login = options.login if options.login
-      api.logout = options.logout if options.logout
-      api.signup = options.signup if options.signup
-      api.session = options.session if options.session
-      scope = options.scope if options.scope
-
-      if options.onError
-        if typeof options.onError isnt 'function'
-          err = new Error 'bxSession.config() requires ' +
-            'options.onError to be typeof == function'
-        else
-          onError = options.onError
-
+    # return methods
     load: () ->
       loadSession false
 
@@ -87,7 +71,6 @@ angular.module('bxSession.session', [])
       authenticated
 
     login: (username, password) ->
-      checkBootstrap()
       deferred = $q.defer()
 
       $http.post(api.login,
@@ -106,7 +89,6 @@ angular.module('bxSession.session', [])
       deferred.promise
 
     signup: (username, password) ->
-      checkBootstrap()
       deferred = $q.defer()
 
       $http.post(api.signup,
@@ -125,7 +107,6 @@ angular.module('bxSession.session', [])
       deferred.promise
 
     logout: () ->
-      checkBootstrap()
       deferred = $q.defer()
 
       $http.get(api.logout)
@@ -140,21 +121,21 @@ angular.module('bxSession.session', [])
           deferred.reject false
 
       deferred.promise
-
-  return @
+]
 
 
 
 angular.module('bxSession.auth', [ 'bxSession.session' ])
 
 .provider 'bxAuth', ->
+  util = null
   bxSession = null
   $state = null
   $q = null
 
   @auth = (options) ->
     return ->
-      if !bxSession || !$state || !$q
+      if !util || !bxSession || !$state || !$q
         err = new Error 'bxAuth dependencies not initialized.'
         console.log 'ERROR! bxAuth not initialized.', err
         throw err
@@ -187,9 +168,11 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               console.log 'Page req auth. User not auth. Redirect to '
               $state.go reqAuth
             else
-              # else, return rejected promise
-              promise = deferred.promise
-              return promise
+              # else, return generate random token + redirect to self
+              console.log 'Page req auth. User already on page.' +
+                ' Generating  random token.'
+              $state.go redirAuth
+                redirect: util.random 15
           else
             deferred.resolve true
         else if redirAuth # if meant to redirect authenticated users
@@ -198,10 +181,15 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
             deferred.reject null
 
             # if not on redirAuth page, redirect
+            console.log 'Redirecting auth user.'
             if $state.current.name isnt redirAuth
               $state.go redirAuth
             else
               # else, return generate random token + redirect to self
+              console.log 'Redirecting auth users. Already on redir.' +
+                ' Generating random token.'
+              $state.go redirAuth
+                redirect: util.random 15
           else
             deferred.resolve true
         else
@@ -210,21 +198,21 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
       deferred.promise
 
   @$get = () ->
-    bootstrap: (_state, _q, _bxSession) ->
+    bootstrap: (_state, _q, _bxSession, _util) ->
       bxSession = _bxSession
       $state = _state
       $q = _q
+      util = _util
 
   return @
 
 
 
-angular.module('bxSession', [ 'bxSession.auth', 'ui.router' ])
+angular.module('bxSession', [ 'ui.router', 'bxSession.auth', 'bxUtil' ])
 
 .run [
-  '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession'
-  ($rootScope, $state, $http, $q, bxAuth, bxSession) ->
-    # inject objects into bxAuth + bxSession providers
-    bxAuth.bootstrap $state, $q, bxSession
-    bxSession.bootstrap $rootScope, $http, $q
+  '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession', 'bxUtil'
+  ($rootScope, $state, $http, $q, bxAuth, bxSession, bxUtil) ->
+    # inject dependencies into bxAuth provider
+    bxAuth.bootstrap $state, $q, bxSession, bxUtil
 ]
