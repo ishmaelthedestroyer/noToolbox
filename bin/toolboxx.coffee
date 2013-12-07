@@ -18,6 +18,7 @@ angular.module 'ngToolboxx', [
   'bxLogger'
   'bxNotify'
   'bxQueue'
+  'bxResource'
   'bxSession'
   'bxSocket'
   'bxUtil'

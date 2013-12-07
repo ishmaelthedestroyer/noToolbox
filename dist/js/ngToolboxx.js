@@ -1007,4 +1007,4 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
   }
 ]);
 
-angular.module('ngToolboxx', ['bxCtrl', 'bxDraggable', 'bxFireOnClick', 'bxFisheye', 'bxOnDoubleClick', 'bxOnKeyUp', 'bxPreventRightClick', 'bxResizable', 'bxRightClickMenu', 'bxSluggify', 'bxSubmitOnEnter', 'bxFormatFileSize', 'bxErrorInterceptor', 'bxLogger', 'bxNotify', 'bxQueue', 'bxSession', 'bxSocket', 'bxUtil']);
+angular.module('ngToolboxx', ['bxCtrl', 'bxDraggable', 'bxFireOnClick', 'bxFisheye', 'bxOnDoubleClick', 'bxOnKeyUp', 'bxPreventRightClick', 'bxResizable', 'bxRightClickMenu', 'bxSluggify', 'bxSubmitOnEnter', 'bxFormatFileSize', 'bxErrorInterceptor', 'bxLogger', 'bxNotify', 'bxQueue', 'bxResource', 'bxSession', 'bxSocket', 'bxUtil']);
