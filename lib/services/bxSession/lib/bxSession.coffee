@@ -92,12 +92,30 @@ angular.module('bxSession.session', [])
         username: username
         password: password
       ).success (data, status, headers, config) ->
-        session = data
         update 'login', () ->
+          session = data
           authenticated = true
           deferred.resolve true
       .error (data, status, headers, config) ->
-        session = null
+        update 'error', () ->
+          onError && onError()
+          deferred.reject false
+
+      deferred.promise
+
+    signup: (username, password) ->
+      checkBootstrap()
+      deferred = $q.defer()
+
+      $http.post(api.signup,
+        username: username
+        password: password
+      ).success (data, status, headers, config) ->
+        update 'signup', () ->
+          update = data
+          authenticated = true
+          deferred.resolve true
+      .error (data, status, headers, config) ->
         update 'error', () ->
           onError && onError()
           deferred.reject false
@@ -110,12 +128,11 @@ angular.module('bxSession.session', [])
 
       $http.get(api.logout)
       .success (data, status, headers, config) ->
-        session = null
         update 'logout', () ->
+          session = null
           authenticated = false
           deferred.resolve true
       .error (data, status, headers, config) ->
-        session = null
         update 'error', () ->
           onError && onError()
           deferred.reject false
