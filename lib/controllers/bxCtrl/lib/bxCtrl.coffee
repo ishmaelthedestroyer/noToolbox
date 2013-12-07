@@ -10,9 +10,6 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
     $scope.notifications = Notify.list()
     $scope.queue = Queue.list()
 
-    $scope.removeNotification = (index) ->
-      Notify.remove index
-
     do ->
       # add session request to queue, fetch session
       deferred = $q.defer()
@@ -24,6 +21,18 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
     $rootScope.$on 'session:loaded', (event, data) ->
       Logger.debug 'Updated session.', data
       $scope.session = data
+
+    $scope.logout = ($e, location) ->
+      $e.preventDefault()
+      deferred = $q.defer()
+
+      Queue.push deferred.promise
+      Session.logout().then (data) ->
+        $location.path '/' || location
+        deferred.resolve true
+
+    $scope.removeNotification = (index) ->
+      Notify.remove index
 
     apply = (scope, fn) ->
       if scope.$$phase or scope.$root.$$phase

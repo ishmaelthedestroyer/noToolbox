@@ -6,9 +6,6 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
     $scope.session = {};
     $scope.notifications = Notify.list();
     $scope.queue = Queue.list();
-    $scope.removeNotification = function(index) {
-      return Notify.remove(index);
-    };
     (function() {
       var deferred;
       deferred = $q.defer();
@@ -21,6 +18,19 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
       Logger.debug('Updated session.', data);
       return $scope.session = data;
     });
+    $scope.logout = function($e, location) {
+      var deferred;
+      $e.preventDefault();
+      deferred = $q.defer();
+      Queue.push(deferred.promise);
+      return Session.logout().then(function(data) {
+        $location.path('/' || location);
+        return deferred.resolve(true);
+      });
+    };
+    $scope.removeNotification = function(index) {
+      return Notify.remove(index);
+    };
     return apply = function(scope, fn) {
       if (scope.$$phase || scope.$root.$$phase) {
         return fn();
