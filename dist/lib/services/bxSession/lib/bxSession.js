@@ -221,11 +221,9 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
   };
   this.$get = function() {
     return {
-      bootstrap: function(_state, _route, _q, _bxSession) {
-        var $route;
+      bootstrap: function(_state, _q, _bxSession) {
         bxSession = _bxSession;
         $state = _state;
-        $route = _route;
         return $q = _q;
       }
     };

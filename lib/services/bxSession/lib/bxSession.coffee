@@ -209,10 +209,9 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
       deferred.promise
 
   @$get = () ->
-    bootstrap: (_state, _route, _q, _bxSession) ->
+    bootstrap: (_state, _q, _bxSession) ->
       bxSession = _bxSession
       $state = _state
-      $route = _route
       $q = _q
 
   return @
