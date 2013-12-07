@@ -533,7 +533,14 @@ angular.module('bxQueue', []).factory('bxQueue', [
   }
 ]);
 
-angular.module('bxResource', ['ngResource']).service('bxResource', function() {
+angular.module('bxResource', ['ngResource']).config(function($controllerProvider, $compileProvider, $filterProvider, $provide) {
+  this.controller = $controllerProvider.register;
+  this.directive = $compileProvider.directive;
+  this.filter = $filterProvider.register;
+  this.provider = $provide.provider;
+  this.factory = $provide.factory;
+  return this.service = $provide.service;
+}).service('bxResource', function() {
   var resources;
   resources = [];
   return {
@@ -555,7 +562,7 @@ angular.module('bxResource', ['ngResource']).service('bxResource', function() {
       ]);
       */
 
-      var resource, x, _i, _len;
+      var x, _i, _len;
       for (_i = 0, _len = resources.length; _i < _len; _i++) {
         x = resources[_i];
         if (x.name === name) {
@@ -568,7 +575,7 @@ angular.module('bxResource', ['ngResource']).service('bxResource', function() {
         };
       }
       url = url || '/api/' + name.toLowerCase() + '/:id';
-      resource = angular.module('bxResource').factory(name, [
+      angular.module('bxResource').factory(name, [
         '$resource', function($resource) {
           return $resource(url, params);
         }
