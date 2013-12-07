@@ -23,6 +23,9 @@ angular.module('bxFormatFileSize', [])
         unit = $config.units[i]
         prefix = unit.prefix or ""
         suffix = unit.suffix or ""
-        return prefix + (bytes / unit.size).toFixed(2) + suffix  if i is $config.units.length - 1 or bytes >= unit.size
+
+        if i is $config.units.length - 1 or bytes >= unit.size
+          return prefix + (bytes / unit.size).toFixed(2) + suffix
+
         i += 1
   return

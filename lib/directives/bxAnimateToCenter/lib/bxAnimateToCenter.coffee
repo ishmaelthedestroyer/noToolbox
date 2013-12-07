@@ -1,4 +1,4 @@
-angular.module 'bxAnimateToCenter', [])
+angular.module('bxAnimateToCenter', [])
 
 .directive 'bxAnimateToCenter', ($window) ->
   (scope, element, attr) ->

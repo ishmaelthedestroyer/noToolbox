@@ -9,7 +9,7 @@ angular.module('bxSocket', [])
     open = false
 
     host = location.protocol + '//' + location.hostname
-    if location.port host += ':' + location.port
+    if location.port then host += ':' + location.port
 
     load = (url) ->
       # create async promise

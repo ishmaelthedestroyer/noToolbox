@@ -7,6 +7,7 @@ module.exports = (grunt) ->
 
     dist:
       html: 'dist/html/index'
+      js: 'dist/js/ngToolbox.js'
 
     files:
       meta: [
@@ -40,6 +41,8 @@ module.exports = (grunt) ->
         'lib/services/bxSocket/lib/bxSocket.*'
 
         'lib/controllers/bxCtrl/lib/bxCtrl.*'
+
+        'bin/toolboxx.coffee'
       ]
       html: [
         'html/*.html.*'
@@ -51,7 +54,7 @@ module.exports = (grunt) ->
         'img/*.*'
       ]
       fonts: [
-        'fonts/**/*.*'
+        'fonts/**'
       ]
       all: []
       modulesCompiled: []
@@ -159,11 +162,18 @@ module.exports = (grunt) ->
           src: [
             '<%= files.img %>'
           ]
-          dest: '<%= dir.dist %>public/assets/img/'
+          dest: '<%= dir.dist %>img/'
           cwd: '.'
           expand: true
           flatten: true
         ]
+      fonts:
+        expand: true
+        src: [
+          '<%= files.fonts %>'
+        ]
+        dest: '<%= dir.dist %>'
+        cwd: '.'
 
 
     # compile coffeescript files
@@ -185,33 +195,35 @@ module.exports = (grunt) ->
 
     # compile coffeecup
     coffeecup:
-      expand: true
-      cwd: '.'
-      src: [
-        '<%= files.html %>'
-      ]
-      dest: '<%= dist.html %>'
-      ext: '.html'
+      src:
+        expand: true
+        cwd: '.'
+        src: [
+          '<%= files.html %>'
+        ]
+        dest: '<%= dist.html %>'
+        ext: '.html'
 
     # lint + minify CSS
     recess:
-      src: [
-        '<%= files.css %>'
-      ]
-      dest: '<%= dir.dist %>css/style.css'
-      options:
-        compile: true
-        compress: false
-        noUnderscores: false
-        noIDs: false
-        zeroUnits: false
+      src:
+        src: [
+          '<%= files.css %>'
+        ]
+        dest: '<%= dir.dist %>css/style.css'
+        options:
+          compile: true
+          compress: false
+          noUnderscores: false
+          noIDs: false
+          zeroUnits: false
 
     concat:
       modules:
         src: [
           '<%= files.modulesCompiled %>'
         ]
-        dest: '<%= dist.modules %>'
+        dest: '<%= dist.js %>'
         filter: 'isFile'
 
       vendor:
@@ -266,18 +278,12 @@ module.exports = (grunt) ->
   ]
 
   grunt.registerTask 'build:css', [
-    'clean:css'
-
-    'recess:app'
-    'recess:vendor'
+    'recess:src'
   ]
 
   grunt.registerTask 'build:assets', [
-    'clean:assets'
-
     'copy:fonts'
     'copy:img'
-    'copy:favicon'
   ]
 
   grunt.registerTask 'build', [
