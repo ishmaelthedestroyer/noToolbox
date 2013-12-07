@@ -1,16 +1,7 @@
 angular.module('bxResource', ['ngResource'])
 
-# set up lazy loading module
-.config ($controllerProvider, $compileProvider, $filterProvider, $provide) ->
-  @controller = $controllerProvider.register
-  @directive = $compileProvider.directive
-  @filter = $filterProvider.register
-  @provider = $provide.provider
-  @factory = $provide.factory
-  @service = $provide.service
-
-.service 'bxResource', () ->
-  resources = []
+.service 'bxResource', [ '$resource', ($resource) ->
+  resources = {}
 
   # return method
   get: (name, url, params) ->
@@ -32,18 +23,22 @@ angular.module('bxResource', ['ngResource'])
 
     ###
     # try to find resource in resources
-    return x for x in resources when x.name is name
+    return resources[key] for key of resources when key is name
 
     # if doesn't exist, create a new one
     params = { id: '@id' } if !params
     url = url || '/api/' + name.toLowerCase() + '/:id'
 
+    ###
     resource = angular.module('bxResource').factory name, [
       '$resource', ($resource) ->
         $resource url, params
     ]
+    ###
 
-    # resource = angular.module('bx')
+    resources[name] = resource = $resource url, params
 
-    resources.push resource
+    # resources.push resource
+
     return resource
+]
