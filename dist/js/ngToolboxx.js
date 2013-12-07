@@ -697,15 +697,14 @@ angular.module('bxSession.session', []).provider('bxSession', function() {
 });
 
 angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', function() {
-  var $q, $route, $state, bxSession;
+  var $q, $state, bxSession;
   bxSession = null;
   $state = null;
-  $route = null;
   $q = null;
   this.auth = function(options) {
     return function() {
       var authKey, deferred, err, redirAuth, reqAuth;
-      if (!bxSession || !$state || !$route || !$q) {
+      if (!bxSession || !$state || !$q) {
         err = new Error('bxAuth dependencies not initialized.');
         console.log('ERROR! bxAuth not initialized.', err);
         throw err;
@@ -723,13 +722,15 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
       redirAuth = options.redirAuth;
       deferred = $q.defer();
       bxSession.load().then(function(session) {
+        var promise;
         if (reqAuth) {
           if ((session == null) || typeof session !== 'object' || !(authKey in session)) {
             deferred.reject(null);
             if ($state.current.name !== reqAuth) {
               return $state.go(reqAuth);
             } else {
-              return $route.reload();
+              promise = deferred.promise;
+              return promise;
             }
           } else {
             return deferred.resolve(true);
@@ -740,7 +741,8 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
             if ($state.current.name !== redirAuth) {
               return $state.go(redirAuth);
             } else {
-              return $route.reload();
+              promise = deferred.promise;
+              return promise;
             }
           } else {
             return deferred.resolve(true);
@@ -755,6 +757,7 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
   this.$get = function() {
     return {
       bootstrap: function(_state, _route, _q, _bxSession) {
+        var $route;
         bxSession = _bxSession;
         $state = _state;
         $route = _route;
@@ -766,8 +769,8 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
 });
 
 angular.module('bxSession', ['bxSession.auth', 'ui.router']).run([
-  '$rootScope', '$state', '$route', '$http', '$q', 'bxAuth', 'bxSession', function($rootScope, $state, $route, $http, $q, bxAuth, bxSession) {
-    bxAuth.bootstrap($state, $route, $q, bxSession);
+  '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession', function($rootScope, $state, $http, $q, bxAuth, bxSession) {
+    bxAuth.bootstrap($state, $q, bxSession);
     return bxSession.bootstrap($rootScope, $http, $q);
   }
 ]);

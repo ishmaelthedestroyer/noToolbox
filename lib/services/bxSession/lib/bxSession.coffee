@@ -148,12 +148,11 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 .provider 'bxAuth', ->
   bxSession = null
   $state = null
-  $route = null
   $q = null
 
   @auth = (options) ->
     return ->
-      if !bxSession || !$state || !$route || !$q
+      if !bxSession || !$state || !$q
         err = new Error 'bxAuth dependencies not initialized.'
         console.log 'ERROR! bxAuth not initialized.', err
         throw err
@@ -185,8 +184,9 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
             if $state.current.name isnt reqAuth
               $state.go reqAuth
             else
-              # else, refresh route
-              $route.reload()
+              # else, return rejected promise
+              promise = deferred.promise
+              return promise
           else
             deferred.resolve true
         else if redirAuth # if authentication required
@@ -198,8 +198,9 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
             if $state.current.name isnt redirAuth
               $state.go redirAuth
             else
-              # else, refresh route
-              $route.reload()
+              # else, return rejected promise
+              promise = deferred.promise
+              return promise
           else
             deferred.resolve true
         else
@@ -221,9 +222,9 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 angular.module('bxSession', [ 'bxSession.auth', 'ui.router' ])
 
 .run [
-  '$rootScope', '$state', '$route', '$http', '$q', 'bxAuth', 'bxSession'
-  ($rootScope, $state, $route, $http, $q, bxAuth, bxSession) ->
+  '$rootScope', '$state', '$http', '$q', 'bxAuth', 'bxSession'
+  ($rootScope, $state, $http, $q, bxAuth, bxSession) ->
     # inject objects into bxAuth + bxSession providers
-    bxAuth.bootstrap $state, $route, $q, bxSession
+    bxAuth.bootstrap $state, $q, bxSession
     bxSession.bootstrap $rootScope, $http, $q
 ]
