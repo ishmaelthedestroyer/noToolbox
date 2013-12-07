@@ -567,7 +567,7 @@ angular.module('bxResource', ['ngResource']).service('bxResource', function() {
           id: '@id'
         };
       }
-      url = url || '/api/' + name.toLower() + '/:id';
+      url = url || '/api/' + name.toLowerCase() + '/:id';
       resource = angular.module('bxResource').factory(name, [
         '$resource', function($resource) {
           return $resource(url, params);
