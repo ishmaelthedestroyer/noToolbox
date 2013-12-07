@@ -5,6 +5,9 @@ module.exports = (grunt) ->
       tmp: 'tmp/'
       dist: 'dist/'
 
+    dist:
+      html: 'dist/html/index'
+
     files:
       meta: [
         'bower.json'
@@ -14,42 +17,54 @@ module.exports = (grunt) ->
         '.nodemonignore'
         '.jshintrc'
       ]
-      server: [
-        '*'
-        'lib/*',
-        'app/bin/*'
-        'app/models/*'
-        'app/controllers/*'
-        'config/**/*'
-      ]
-      client: [
-        'public/assets/js/app.*'
-        'public/assets/js/routes.*'
-        'public/assets/js/**/*'
-        'public/routes/**/state.*'
-        'public/routes/**/controllers/*'
-        'public/common/js/**/lib/*.*'
-        'public/assets/js/bootstrap.*'
+      modules: [
+        'lib/directives/bxAnimateToCenter/lib/bxAnimateToCenter.*'
+        'lib/directives/bxDraggable/lib/bxDraggable.*'
+        'lib/directives/bxFireOnClick/lib/bxFireOnClick.*'
+        'lib/directives/bxFishEye/lib/bxFishEye.*'
+        'lib/directives/bxOnDoubleClick/lib/bxOnDoubleClick.*'
+        'lib/directives/bxOnKeyUp/lib/bxOnKeyUp.*'
+        'lib/directives/bxPreventRightClick/lib/bxPreventRightClick.*'
+        'lib/directives/bxResizable/lib/bxResizable.*'
+        'lib/directives/bxRightClickMenu/lib/bxRightClickMenu.*'
+        'lib/directives/bxSluggify/lib/bxSluggify.*'
+        'lib/directives/bxSubmitOnEnter/lib/bxSubmitOnEnter.*'
+
+        'lib/filters/bxFormatFileSize/lib/bxFormatFileSize.*'
+
+        'lib/services/bxErrorInterceptor/lib/bxErrorInterceptor.*'
+        'lib/services/bxLogger/lib/bxLogger.*'
+        'lib/services/bxNotify/lib/bxNotify.*'
+        'lib/services/bxQueue/lib/bxQueue.*'
+        'lib/services/bxSession/lib/bxSession.*'
+        'lib/services/bxSocket/lib/bxSocket.*'
+
+        'lib/controllers/bxCtrl/lib/bxCtrl.*'
       ]
       html: [
-        'public/index.html.*'
-        'public/routes/**/**.html.*'
+        'html/*.html.*'
       ]
       css: [
-        'public/common/css/style.css'
-        'public/assets/css/style.css'
-      ]
-      favicon: [
-        'public/favicon.ico'
+        'css/*.css'
       ]
       img: [
         'img/*.*'
       ]
       fonts: [
-        'fonts/**'
+        'fonts/**/*.*'
       ]
       all: []
-      clientTmp: []
+      modulesCompiled: []
+
+  for file in fileConfig.files.modules
+    fileConfig.files.modulesCompiled.push 'dist/'+file
+
+  fileConfig.files.all.push file for file in fileConfig.files.meta
+  fileConfig.files.all.push file for file in fileConfig.files.modules
+  fileConfig.files.all.push file for file in fileConfig.files.html
+  fileConfig.files.all.push file for file in fileConfig.files.css
+  fileConfig.files.all.push file for file in fileConfig.files.img
+  fileConfig.files.all.push file for file in fileConfig.files.fonts
 
   # load tasks
   require('load-grunt-tasks')(grunt)
@@ -87,39 +102,12 @@ module.exports = (grunt) ->
 
     # watch files for changes
     watch:
-      server:
-        files: [
-          '<%= files.server %>'
-        ]
-        tasks: [
-          'build:server'
-        ]
-      client:
-        files: [
-          '<%= files.client %>'
-          '<%= files.html %>'
-          '<%= files.vendor.js %>'
-        ]
-        tasks: [
-          'build:client'
-        ]
-      css:
-        tasks: [
-          'build:css'
-        ]
-        files: [
-          '<%= files.css %>'
-          '<%= files.vendor.css %>'
-        ]
-      assets:
-        tasks: [
-          'build:assets'
-        ]
-        files: [
-          '<%= files.img %>'
-          '<%= files.fonts %>'
-          '<%= files.favicon %>'
-        ]
+      files: [
+        '<%= files.all %>'
+      ]
+      tasks: [
+        'build'
+      ]
 
     # creates changelog on a new version
     changelog:
@@ -154,49 +142,6 @@ module.exports = (grunt) ->
       dist: [
         '<%= dir.dist %>'
       ]
-      server:
-        expand: true
-        cwd: '<%= dir.dist %>'
-        src: [
-          '<%= files.meta %>'
-          '<%= files.server %>'
-        ]
-        filter: (filename) ->
-          split = filename.split '.'
-          ext = split[split.length - 1]
-          return ext is 'js'
-      client:
-        expand: true
-        cwd: '<%= dir.dist %>'
-        src: [
-          '<%= dist.client %>'
-          '<%= dist.vendorJS %>'
-        ]
-        filter: (filename) ->
-          split = filename.split '.'
-          ext = split[split.length - 1]
-          return ext is 'js'
-      html:
-        expand: true
-        cwd: '<%= dir.dist %>'
-        src: [
-          '<%= files.html %>'
-        ]
-        filter: (filename) ->
-          split = filename.split '.'
-          ext = split[split.length - 1]
-          return ext is 'html'
-      css:
-        src: [
-          '<%= dist.css %>'
-          '<%= dist.vendorCSS %>'
-        ]
-      assets:
-        src: [
-          '<%= dir.dist %>public/assets/css/fonts/**'
-          '<%= dir.dist %>public/assets/img/'
-          '<%= dir.dist %>public/favicon.ico'
-        ]
 
     copy:
       meta:
@@ -206,15 +151,6 @@ module.exports = (grunt) ->
           ]
           dest: '<%= dir.dist %>'
           cwd: '.'
-          expand: true
-          flatten: true
-        ]
-      fonts:
-        files: [
-          src: [
-            '<%= files.fonts %>'
-          ]
-          dest: '<%= dir.dist %>public/assets/fonts/'
           expand: true
           flatten: true
         ]
@@ -228,52 +164,19 @@ module.exports = (grunt) ->
           expand: true
           flatten: true
         ]
-      favicon:
-        files: [
-          src: [
-            '<%= files.favicon %>'
-          ]
-          dest: '<%= dir.dist %>public/'
-          cwd: '.'
-          expand: true
-          flatten: true
-        ]
-      vendor:
-        files: [
-          src: [
-            '<%= files.vendor.js %>'
-          ]
-          dest: '<%= dir.dist %>public/assets/js/vendor.js'
-          cwd: '.'
-          expand: true
-        ]
 
 
     # compile coffeescript files
     coffee:
-      server:
+      modules:
         options:
           bare: true
         expand: true
         cwd: '.'
         src: [
-          '<%= files.server %>'
+          '<%= files.modules %>'
         ]
         dest: '<%= dir.dist %>'
-        ext: '.js'
-        filter: (filename) ->
-          split = filename.split '.'
-          ext = split[split.length - 1]
-          return ext is 'coffee'
-      client:
-        options:
-          bare: true
-        expand: true
-        cwd: '.'
-        src: [
-          '<%= files.client %>'
-        ]
-        dest: '<%= dir.tmp %>'
         ext: '.js'
         filter: (filename) ->
           split = filename.split '.'
@@ -282,46 +185,33 @@ module.exports = (grunt) ->
 
     # compile coffeecup
     coffeecup:
-      views:
-        expand: true
-        cwd: '.'
-        src: [
-          '<%= files.html %>'
-        ]
-        dest: '<%= dir.dist %>'
-        ext: '.html'
+      expand: true
+      cwd: '.'
+      src: [
+        '<%= files.html %>'
+      ]
+      dest: '<%= dist.html %>'
+      ext: '.html'
 
     # lint + minify CSS
     recess:
-      vendor:
-        src: [
-          '<%= files.vendor.css %>'
-        ]
-        dest: '<%= dir.dist %>public/assets/css/vendor.css'
-        options:
-          compile: true
-          compress: false
-          noUnderscores: false
-          noIDs: false
-          zeroUnits: false
-      app:
-        src: [
-          '<%= files.css %>'
-        ]
-        dest: '<%= dir.dist %>public/assets/css/app.css'
-        options:
-          compile: true
-          compress: false
-          noUnderscores: false
-          noIDs: false
-          zeroUnits: false
+      src: [
+        '<%= files.css %>'
+      ]
+      dest: '<%= dir.dist %>css/style.css'
+      options:
+        compile: true
+        compress: false
+        noUnderscores: false
+        noIDs: false
+        zeroUnits: false
 
     concat:
-      client:
+      modules:
         src: [
-          '<%= files.clientTmp %>'
+          '<%= files.modulesCompiled %>'
         ]
-        dest: '<%= dist.client %>'
+        dest: '<%= dist.modules %>'
         filter: 'isFile'
 
       vendor:
@@ -339,27 +229,6 @@ module.exports = (grunt) ->
             '<%= dir.dist %>'
           ]
 
-    # lint *.js files
-    jshint:
-      server:
-        expand: true
-        jshintrc: '.jshintrc'
-        cwd: '<%= dir.dist %>'
-        src: [
-          '<%= files.server %>'
-        ]
-        filter: (filename) ->
-          split = filename.split '.'
-          ext = split[split.length - 1]
-          return ext is 'js'
-
-      client:
-        jshintrc: '.jshintrc'
-        src: [
-          '<%= dir.dist %>assets/js/app.js'
-          '<%= dir.dist %>assets/js/app.min.js'
-        ]
-
     # lint *.coffee files
     coffeelint:
       gruntfile:
@@ -368,18 +237,9 @@ module.exports = (grunt) ->
             'Gruntfile.coffee'
           ]
 
-      server:
+      modules:
         src: [
-          '<%= files.server %>'
-        ]
-        filter: (filename) ->
-          split = filename.split '.'
-          ext = split[split.length - 1]
-          return ext is 'coffee'
-
-      client:
-        src: [
-          '<%= files.client %>'
+          '<%= files.modules %>'
         ]
         filter: (filename) ->
           split = filename.split '.'
@@ -393,25 +253,11 @@ module.exports = (grunt) ->
     'concurrent:dev'
   ]
 
-  grunt.registerTask 'build:server', [
-    'clean:server'
+  grunt.registerTask 'build:modules', [
+    'coffeelint:modules'
+    'coffee:modules'
 
-    'coffeelint:server'
-    'coffee:server'
-
-    'copy:meta'
-    # 'jshint:server'
-  ]
-
-  grunt.registerTask 'build:client', [
-    'clean:client'
-    'clean:html'
-
-    'coffeelint:client'
-    'coffee:client'
-
-    'concat:client'
-    'concat:vendor'
+    'concat:modules'
 
     'coffeecup'
 
@@ -438,8 +284,7 @@ module.exports = (grunt) ->
     'clean:tmp'
     'clean:dist'
 
-    'build:server'
-    'build:client'
+    'build:modules'
     'build:css'
     'build:assets'
 
