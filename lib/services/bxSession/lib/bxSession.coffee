@@ -5,7 +5,7 @@ angular.module('bxSession.session', [])
   ($rootScope, $http, $q)->
     session = null
     authenticated = false
-    scope = null
+    scope = $rootScope
 
     # TODO: emit error object
     onError = () ->
