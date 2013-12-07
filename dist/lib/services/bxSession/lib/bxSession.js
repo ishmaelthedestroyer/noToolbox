@@ -172,16 +172,18 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
       redirAuth = options.redirAuth;
       deferred = $q.defer();
       bxSession.load().then(function(session) {
+        var token;
         if (reqAuth) {
           if ((session == null) || typeof session !== 'object' || !(authKey in session)) {
-            deferred.reject(null);
+            deferred.resolve(null);
             if ($state.current.name !== reqAuth) {
               console.log('Page req auth. User not auth. Redirect to ');
               return $state.go(reqAuth);
             } else {
-              console.log('Page req auth. User already on page.' + ' Generating  random token.');
+              token = util.random(15);
+              console.log('Page req auth. User already on page.' + ' Generating  random token: ' + token);
               return $state.transitionTo(redirAuth, {
-                redirect: util.random(15)
+                redirect: token
               });
             }
           } else {
@@ -189,14 +191,15 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
           }
         } else if (redirAuth) {
           if (session && Object.getOwnPropertyNames(session).length) {
-            deferred.reject(null);
+            deferred.resolve(null);
             if ($state.current.name !== redirAuth) {
               console.log('Redirecting auth user.');
               return $state.go(redirAuth);
             } else {
-              console.log('Redirecting auth users. Already on redir.' + ' Generating random token.');
+              token = util.random(15);
+              console.log('Redirecting auth users. Already on redir.' + ' Generating random token: ' + token);
               return $state.transitionTo(redirAuth, {
-                redirect: util.random(15)
+                redirect: token
               });
             }
           } else {

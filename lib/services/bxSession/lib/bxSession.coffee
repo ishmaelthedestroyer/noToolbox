@@ -164,7 +164,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
         if reqAuth
           # if route requires auth but user not authenticated
           if !session? || typeof session isnt 'object' or !(authKey of session)
-            deferred.reject null
+            deferred.resolve null
 
             # if not on reqAuth page, redirect
             if $state.current.name isnt reqAuth
@@ -172,16 +172,17 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               $state.go reqAuth
             else
               # else, return generate random token + redirect to self
+              token = util.random 15
               console.log 'Page req auth. User already on page.' +
-                ' Generating  random token.'
+                ' Generating  random token: ' + token
               $state.transitionTo redirAuth,
-                redirect: util.random 15
+                redirect: token
           else
             deferred.resolve true
         else if redirAuth # if meant to redirect authenticated users
           # if already authenticated
           if session and Object.getOwnPropertyNames(session).length
-            deferred.reject null
+            deferred.resolve null
 
             # if not on redirAuth page, redirect
             if $state.current.name isnt redirAuth
@@ -189,10 +190,11 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               $state.go redirAuth
             else
               # else, return generate random token + redirect to self
+              token = util.random 15
               console.log 'Redirecting auth users. Already on redir.' +
-                ' Generating random token.'
+                ' Generating random token: ' + token
               $state.transitionTo redirAuth,
-                redirect: util.random 15
+                redirect: token
           else
             deferred.resolve true
         else
