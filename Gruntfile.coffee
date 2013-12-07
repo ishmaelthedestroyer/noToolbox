@@ -42,7 +42,7 @@ module.exports = (grunt) ->
 
         'lib/controllers/bxCtrl/lib/bxCtrl.*'
 
-        'bin/toolboxx.coffee'
+        'bin/toolboxx.*'
       ]
       html: [
         'html/*.html.*'
@@ -225,12 +225,6 @@ module.exports = (grunt) ->
         ]
         dest: '<%= dist.js %>'
         filter: 'isFile'
-
-      vendor:
-        src: [
-          '<%= files.vendor.js %>'
-        ]
-        dest: '<%= dist.vendorJS %>'
 
     uglify:
       app:
