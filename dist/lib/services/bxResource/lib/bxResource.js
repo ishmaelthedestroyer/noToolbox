@@ -27,7 +27,7 @@ angular.module('bxResource', ['ngResource']).config(function($controllerProvider
       ]);
       */
 
-      var x, _i, _len;
+      var resource, x, _i, _len;
       for (_i = 0, _len = resources.length; _i < _len; _i++) {
         x = resources[_i];
         if (x.name === name) {
@@ -40,7 +40,7 @@ angular.module('bxResource', ['ngResource']).config(function($controllerProvider
         };
       }
       url = url || '/api/' + name.toLowerCase() + '/:id';
-      angular.module('bxResource').factory(name, [
+      resource = angular.module('bxResource').factory(name, [
         '$resource', function($resource) {
           return $resource(url, params);
         }

@@ -38,7 +38,7 @@ angular.module('bxResource', ['ngResource'])
     params = { id: '@id' } if !params
     url = url || '/api/' + name.toLowerCase() + '/:id'
 
-    angular.module('bxResource').factory name, [
+    resource = angular.module('bxResource').factory name, [
       '$resource', ($resource) ->
         $resource url, params
     ]
