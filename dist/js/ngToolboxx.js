@@ -829,7 +829,7 @@ angular.module('bxSocket', []).service('bxSocket', [
       sio.src = url || '/socket.io/socket.io.js';
       _s = document.getElementsByTagName('script')[0];
       _s.parentNode.insertBefore(sio, _s);
-      return wait = function() {
+      wait = function() {
         return setTimeout(function() {
           if (window.io) {
             return deferred.resolve(true);
@@ -837,6 +837,7 @@ angular.module('bxSocket', []).service('bxSocket', [
           return wait();
         }, 100);
       };
+      return deferred.promise;
     };
     apply = function(scope, fn) {
       if (scope.$$phase || scope.$root.$$phase) {

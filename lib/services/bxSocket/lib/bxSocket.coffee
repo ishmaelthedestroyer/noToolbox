@@ -42,6 +42,9 @@ angular.module('bxSocket', [])
           wait()
         , 100 # fire every 0.1seconds
 
+      # return promsie
+      deferred.promise
+
     apply = (scope, fn) ->
       if scope.$$phase or scope.$root.$$phase
         fn()
