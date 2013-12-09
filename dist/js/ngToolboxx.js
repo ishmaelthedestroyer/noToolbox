@@ -835,8 +835,9 @@ angular.module('bxSocket', []).service('bxSocket', [
             return deferred.resolve(true);
           }
           return wait();
-        }, 100);
+        }, 50);
       };
+      wait();
       return promise;
     };
     apply = function(scope, fn) {

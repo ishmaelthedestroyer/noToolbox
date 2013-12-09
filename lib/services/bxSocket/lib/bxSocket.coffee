@@ -40,8 +40,9 @@ angular.module('bxSocket', [])
 
           # else, call self
           wait()
-        , 100 # fire every 0.1seconds
+        , 50 # fire every 0.05 seconds
 
+      wait()
       return promise
 
     apply = (scope, fn) ->
