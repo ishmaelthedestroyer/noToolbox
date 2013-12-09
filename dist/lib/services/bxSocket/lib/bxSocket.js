@@ -42,6 +42,9 @@ angular.module('bxSocket', []).service('bxSocket', [
       }
     };
     return {
+      get: function() {
+        return socket;
+      },
       isOpen: function() {
         return open;
       },

@@ -52,6 +52,9 @@ angular.module('bxSocket', [])
         scope.$apply fn
 
     # return methods
+    get: () ->
+      return socket
+
     isOpen: () ->
       return open
 
