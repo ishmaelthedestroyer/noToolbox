@@ -837,7 +837,7 @@ angular.module('bxSocket', []).service('bxSocket', [
           return wait();
         }, 100);
       };
-      return deferred.promise;
+      return promise;
     };
     apply = function(scope, fn) {
       if (scope.$$phase || scope.$root.$$phase) {
