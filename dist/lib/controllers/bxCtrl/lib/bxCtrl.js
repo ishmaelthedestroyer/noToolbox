@@ -6,16 +6,15 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
     $scope.session = {};
     $scope.notifications = Notify.list();
     $scope.queue = Queue.list();
-    /*
-    do ->
-      # add session request to queue, fetch session
-      deferred = $q.defer()
-      Queue.push deferred.promise
-    
-      Session.refresh().then (data) ->
-        deferred.resolve true
-    */
-
+    $scope.loadSession = function() {
+      var deferred;
+      deferred = $q.defer();
+      deferred = $q.defer();
+      Queue.push(deferred.promise);
+      return Session.refresh().then(function(data) {
+        return deferred.resolve(true);
+      });
+    };
     $rootScope.$on('session:loaded', function(event, data) {
       Logger.debug('Updated session.', data);
       return $scope.session = data;
