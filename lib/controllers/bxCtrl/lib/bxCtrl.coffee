@@ -12,6 +12,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
     $scope.notifications = Notify.list()
     $scope.queue = Queue.list()
 
+    ###
     do ->
       # add session request to queue, fetch session
       deferred = $q.defer()
@@ -19,6 +20,7 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
 
       Session.refresh().then (data) ->
         deferred.resolve true
+    ###
 
     $rootScope.$on 'session:loaded', (event, data) ->
       Logger.debug 'Updated session.', data
