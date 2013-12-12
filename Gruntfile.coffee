@@ -34,7 +34,7 @@ module.exports = (grunt) ->
         'lib/filters/bxFormatFileSize/lib/bxFormatFileSize.*'
 
         'lib/services/bxErrorInterceptor/lib/bxErrorInterceptor.*'
-        'lib/services/bxEventStream/lib/bxEventStream.*'
+        'lib/services/bxEventEmitter/lib/bxEventEmitter.*'
         'lib/services/bxLogger/lib/bxLogger.*'
         'lib/services/bxNotify/lib/bxNotify.*'
         'lib/services/bxQueue/lib/bxQueue.*'

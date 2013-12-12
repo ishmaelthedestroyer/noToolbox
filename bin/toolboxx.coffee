@@ -15,7 +15,7 @@ angular.module 'ngToolboxx', [
   'bxFormatFileSize'
 
   'bxErrorInterceptor'
-  'bxEventStream'
+  'bxEventEmitter'
   'bxLogger'
   'bxNotify'
   'bxQueue'

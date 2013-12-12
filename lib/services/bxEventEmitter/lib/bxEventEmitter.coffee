@@ -81,7 +81,10 @@ angular.module('bxEventEmitter', [ 'bxUtil' ])
 
   EventEmitter::addListener = (type, listener) ->
     m = undefined
-    throw TypeError("listener must be a function")  unless util.isFunction(listener)
+
+    if !util.isFunction(listener)
+      throw TypeError("listener must be a function")
+
     @_events = {}  unless @_events
 
     # To avoid recursion in the case that type === "newListener"! Before
@@ -127,7 +130,8 @@ angular.module('bxEventEmitter', [ 'bxUtil' ])
     g = ->
       @removeListener type, g
       listener.apply this, arguments_
-    throw TypeError("listener must be a function")  unless util.isFunction(listener)
+    if !util.isFunction(listener)
+      throw TypeError("listener must be a function")
     g.listener = listener
     @on type, g
     this
@@ -139,19 +143,23 @@ angular.module('bxEventEmitter', [ 'bxUtil' ])
     position = undefined
     length = undefined
     i = undefined
-    throw TypeError("listener must be a function")  unless util.isFunction(listener)
+    if !util.isFunction(listener)
+      throw TypeError("listener must be a function")
+
     return this  if not @_events or not @_events[type]
     list = @_events[type]
     length = list.length
     position = -1
-    if list is listener or (util.isFunction(list.listener) and list.listener is listener)
+    if list is listener or
+    (util.isFunction(list.listener) and list.listener is listener)
       delete @_events[type]
 
       @emit "removeListener", type, listener  if @_events.removeListener
     else if util.isObject(list)
       i = length
       while i-- > 0
-        if list[i] is listener or (list[i].listener and list[i].listener is listener)
+        if list[i] is listener or (list[i].listener and
+        list[i].listener is listener)
           position = i
           break
       return this  if position < 0
@@ -189,7 +197,8 @@ angular.module('bxEventEmitter', [ 'bxUtil' ])
     else
 
       # LIFO order
-      @removeListener type, listeners[listeners.length - 1]  while listeners.length
+      while listeners.length
+        @removeListener type, listeners[listeners.length - 1]
     delete @_events[type]
 
     this
