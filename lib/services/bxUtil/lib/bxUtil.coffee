@@ -503,7 +503,7 @@ angular.module('bxUtil', [])
   pad: pad
   objectToString: objectToString
   stylizeWithColor: stylizeWithColor
-  styleizeNoColor: styleizeNoColor
+  stylizeNoColor: stylizeNoColor
   inspect: inspect
   arrayToHash: arrayToHash
   inherits: inherits
