@@ -15,11 +15,13 @@ angular.module 'ngToolboxx', [
   'bxFormatFileSize'
 
   'bxErrorInterceptor'
+  'bxEventStream'
   'bxLogger'
   'bxNotify'
   'bxQueue'
   'bxResource'
   'bxSession'
   'bxSocket'
+  'bxStream'
   'bxUtil'
 ]

@@ -1,10 +1,11 @@
 angular.module('bxStream', ['bxUtil', 'bxEventEmitter']).service('bxStream', [
   'bxUtil', 'bxEventEmitter', function(util, EventEmitter) {
-    var Stream;
+    var EE, Stream, ref;
+    EE = EventEmitter.get();
     Stream = function() {
       return EE.call(this);
     };
-    return Stream.prototype.pipe = function(dest, options) {
+    Stream.prototype.pipe = function(dest, options) {
       var cleanup, didOnEnd, onclose, ondata, ondrain, onend, onerror, source;
       ondata = function(chunk) {
         if (dest.writable) {
@@ -68,6 +69,16 @@ angular.module('bxStream', ['bxUtil', 'bxEventEmitter']).service('bxStream', [
       dest.on("close", cleanup);
       dest.emit("pipe", source);
       return dest;
+    };
+    ref = new Stream;
+    return {
+      create: function() {
+        return new Stream;
+      },
+      get: function() {
+        return Stream;
+      },
+      pipe: ref.pipe
     };
   }
 ]);

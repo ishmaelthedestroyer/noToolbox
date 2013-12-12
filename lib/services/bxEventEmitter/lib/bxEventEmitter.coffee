@@ -220,7 +220,7 @@ angular.module('bxEventEmitter', [ 'bxUtil' ])
   create: () ->
     return new EventEmitter
   get: () ->
-    return ref
+    return EventEmitter
   setMaxListeners: ref.setMaxListeners
   emit: ref.emit
   addListener: ref.addListener

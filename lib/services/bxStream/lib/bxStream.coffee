@@ -1,8 +1,11 @@
 angular.module('bxStream', [ 'bxUtil', 'bxEventEmitter' ])
 
 .service 'bxStream', [ 'bxUtil', 'bxEventEmitter',  (util, EventEmitter) ->
+  EE = EventEmitter.get()
+
   Stream = ->
     EE.call this
+
   Stream::pipe = (dest, options) ->
     ondata = (chunk) ->
       if dest.writable
@@ -54,4 +57,13 @@ angular.module('bxStream', [ 'bxUtil', 'bxEventEmitter' ])
 
     # Allow for unix-like usage: A.pipe(B).pipe(C)
     dest
+
+  ref = new Stream
+
+  # return methods
+  create: () ->
+    return new Stream
+  get: () ->
+    return Stream
+  pipe: ref.pipe
 ]
