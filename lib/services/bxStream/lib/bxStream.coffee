@@ -6,10 +6,13 @@ angular.module('bxStream', [ 'bxUtil', 'bxEventEmitter' ])
   Stream = ->
     EE.call this
 
+  util.inherits Stream, EE
+
   Stream::pipe = (dest, options) ->
     ondata = (chunk) ->
       if dest.writable
         source.pause()  if false is dest.write(chunk) and source.pause
+
     ondrain = ->
       source.resume()  if source.readable and source.resume
 
@@ -19,6 +22,7 @@ angular.module('bxStream', [ 'bxUtil', 'bxEventEmitter' ])
       return  if didOnEnd
       didOnEnd = true
       dest.end()
+
     onclose = ->
       return  if didOnEnd
       didOnEnd = true
@@ -41,12 +45,15 @@ angular.module('bxStream', [ 'bxUtil', 'bxEventEmitter' ])
       source.removeListener "end", cleanup
       source.removeListener "close", cleanup
       dest.removeListener "close", cleanup
+
     source = this
     source.on "data", ondata
     dest.on "drain", ondrain
+
     if not dest._isStdio and (not options or options.end isnt false)
       source.on "end", onend
       source.on "close", onclose
+
     didOnEnd = false
     source.on "error", onerror
     dest.on "error", onerror

@@ -811,6 +811,7 @@ angular.module('bxStream', ['bxUtil', 'bxEventEmitter']).service('bxStream', [
     Stream = function() {
       return EE.call(this);
     };
+    util.inherits(Stream, EE);
     Stream.prototype.pipe = function(dest, options) {
       var cleanup, didOnEnd, onclose, ondata, ondrain, onend, onerror, source;
       ondata = function(chunk) {
