@@ -86,12 +86,13 @@ angular.module('bxSocket', []).service('bxSocket', [
 
       },
       isListening: function(e, cb) {
-        var func, _i, _len;
+        var func, _i, _len, _ref;
         if (!listeners || !listeners[e]) {
           return false;
         }
-        for (_i = 0, _len = listeners.length; _i < _len; _i++) {
-          func = listeners[_i];
+        _ref = listeners[e];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          func = _ref[_i];
           if (cb === func) {
             return true;
           }
