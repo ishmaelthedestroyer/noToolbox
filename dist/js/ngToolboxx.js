@@ -1247,7 +1247,7 @@ angular.module('bxSocket', []).service('bxSocket', [
         _ref = listeners[e];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           func = _ref[_i];
-          if (cb === func) {
+          if (cb.toSring() === func.toString()) {
             return true;
           }
         }
