@@ -94,13 +94,13 @@ angular.module('bxSocket', [])
       return false if !listeners.length
 
       # loop through, return true if callback matches function
-      return true for func in listeners when wrap cb is func
+      return true for func in listeners when wrap(cb) is func
 
       # return false if couldn't find
       return false
 
     removeListener: (e, cb) ->
-      socket.removeListener e, cb
+      socket.removeListener e, wrap cb
 
     removeAllListeners: ->
       socket.removeAllListeners()

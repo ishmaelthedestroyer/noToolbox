@@ -1241,14 +1241,14 @@ angular.module('bxSocket', []).service('bxSocket', [
         }
         for (_i = 0, _len = listeners.length; _i < _len; _i++) {
           func = listeners[_i];
-          if (wrap(cb === func)) {
+          if (wrap(cb) === func) {
             return true;
           }
         }
         return false;
       },
       removeListener: function(e, cb) {
-        return socket.removeListener(e, cb);
+        return socket.removeListener(e, wrap(cb));
       },
       removeAllListeners: function() {
         return socket.removeAllListeners();
