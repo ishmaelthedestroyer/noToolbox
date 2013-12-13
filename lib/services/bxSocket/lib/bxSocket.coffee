@@ -102,7 +102,11 @@ angular.module('bxSocket', [])
       return false if !listeners || !listeners[e]
 
       # loop through, return true if callback matches function
-      return true for func in listeners[e] when cb.toSring() is func.toString()
+      for func in listeners[e]
+        Logger.debug 'Debugging isListening func.',
+          func: func
+          cb: cb
+        return true if func.toString() is cb.toString()
 
       # return false if couldn't find
       return false

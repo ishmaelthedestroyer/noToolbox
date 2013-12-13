@@ -1247,7 +1247,11 @@ angular.module('bxSocket', []).service('bxSocket', [
         _ref = listeners[e];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           func = _ref[_i];
-          if (cb.toSring() === func.toString()) {
+          Logger.debug('Debugging isListening func.', {
+            func: func,
+            cb: cb
+          });
+          if (func.toString() === cb.toString()) {
             return true;
           }
         }
