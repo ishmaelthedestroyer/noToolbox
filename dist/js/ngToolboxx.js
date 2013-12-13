@@ -1154,11 +1154,12 @@ angular.module('bxStream', ['bxUtil', 'bxEventEmitter']).service('bxStream', [
 
 angular.module('bxSocket', []).service('bxSocket', [
   '$rootScope', '$http', '$q', '$timeout', 'bxLogger', function($rootScope, $http, $q, $timeout, Logger) {
-    var apply, host, initialized, load, open, scope, socket, wrap;
+    var apply, host, initialized, listeners, load, open, scope, socket, wrap;
     scope = null;
     socket = null;
     initialized = false;
     open = false;
+    listeners = {};
     host = location.protocol + '//' + location.hostname;
     if (location.port) {
       host += ':' + location.port;
@@ -1225,7 +1226,12 @@ angular.module('bxSocket', []).service('bxSocket', [
       },
       on: function(e, cb) {
         socket.removeListener(e, wrap(cb));
-        return socket.on(e, wrap(cb));
+        socket.on(e, wrap(cb));
+        if (!listeners[e]) {
+          return listeners[e] = [cb];
+        } else {
+          return listeners[e].push(cb);
+        }
         /*
         socket.on e, (data) ->
           apply scope || $rootScope, ->
@@ -1234,24 +1240,36 @@ angular.module('bxSocket', []).service('bxSocket', [
 
       },
       isListening: function(e, cb) {
-        var func, listeners, _i, _len;
-        listeners = socket.listeners(e);
-        if (!listeners.length) {
+        var func, _i, _len;
+        if (!listeners || !listeners[e]) {
           return false;
         }
         for (_i = 0, _len = listeners.length; _i < _len; _i++) {
           func = listeners[_i];
-          if (wrap(cb) === func) {
+          if (cb === func) {
             return true;
           }
         }
         return false;
       },
       removeListener: function(e, cb) {
-        return socket.removeListener(e, wrap(cb));
+        var func, i, _i, _len, _ref, _results;
+        socket.removeListener(e, wrap(cb));
+        if (listeners[e] && typeof listeners[e] === 'array') {
+          _ref = listeners[e];
+          _results = [];
+          for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+            func = _ref[i];
+            if (cb === func) {
+              _results.push(listeners[e].splice(i, 1));
+            }
+          }
+          return _results;
+        }
       },
       removeAllListeners: function() {
-        return socket.removeAllListeners();
+        socket.removeAllListeners();
+        return listeners = {};
       },
       close: function() {
         if (socket) {

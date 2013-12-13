@@ -7,6 +7,9 @@ angular.module('bxSocket', [])
     socket = null
     initialized = false
     open = false
+    listeners = {}
+
+
 
     host = location.protocol + '//' + location.hostname
     if location.port then host += ':' + location.port
@@ -80,6 +83,14 @@ angular.module('bxSocket', [])
       socket.removeListener e, wrap cb
       socket.on e, wrap cb
 
+      # add to listeners
+      if !listeners[e]
+        # if listeners for event don't exist, initialize array of listeners
+        listeners[e] = [ cb ]
+      else
+        # else, add to array of listeners
+        listeners[e].push cb
+
       ###
       socket.on e, (data) ->
         apply scope || $rootScope, ->
@@ -87,14 +98,11 @@ angular.module('bxSocket', [])
       ###
 
     isListening: (e, cb) ->
-      # get listeners for event
-      listeners = socket.listeners e
-
       # return false if no listeners for event exist
-      return false if !listeners.length
+      return false if !listeners || !listeners[e]
 
       # loop through, return true if callback matches function
-      return true for func in listeners when wrap(cb) is func
+      return true for func in listeners when cb is func
 
       # return false if couldn't find
       return false
@@ -102,8 +110,12 @@ angular.module('bxSocket', [])
     removeListener: (e, cb) ->
       socket.removeListener e, wrap cb
 
+      if listeners[e] && typeof listeners[e] is 'array'
+        listeners[e].splice i, 1 for func, i in listeners[e] when cb is func
+
     removeAllListeners: ->
       socket.removeAllListeners()
+      listeners = {}
 
     close: () ->
       if socket
