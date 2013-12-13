@@ -77,6 +77,19 @@ angular.module('bxSocket', [])
         apply scope || $rootScope, ->
           cb && cb(data)
 
+    isListening: (e, cb) ->
+      # get listeners for event
+      listeners = socket.listeners e
+
+      # return false if no listeners for event exist
+      return false if !listeners
+
+      # loop through, return true if callback matches function
+      return true if cb is func for func in listeners
+
+      # return false if couldn't find
+      return false
+
     removeListener: (e, cb) ->
       socket.removeListener e, cb
 
