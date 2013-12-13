@@ -85,7 +85,7 @@ angular.module('bxSocket', [])
       return false if !listeners
 
       # loop through, return true if callback matches function
-      return true if cb is func for func in listeners
+      return true for func in listeners when cb is func
 
       # return false if couldn't find
       return false

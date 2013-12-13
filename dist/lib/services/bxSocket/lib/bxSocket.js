@@ -71,21 +71,16 @@ angular.module('bxSocket', []).service('bxSocket', [
         });
       },
       isListening: function(e, cb) {
-        var func, listeners;
+        var func, listeners, _i, _len;
         listeners = socket.listeners(e);
         if (!listeners) {
           return false;
         }
-        if ((function() {
-          var _i, _len, _results;
-          _results = [];
-          for (_i = 0, _len = listeners.length; _i < _len; _i++) {
-            func = listeners[_i];
-            _results.push(cb === func);
+        for (_i = 0, _len = listeners.length; _i < _len; _i++) {
+          func = listeners[_i];
+          if (cb === func) {
+            return true;
           }
-          return _results;
-        })()) {
-          return true;
         }
         return false;
       },
