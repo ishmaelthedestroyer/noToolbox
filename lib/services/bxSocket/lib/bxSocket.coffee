@@ -45,6 +45,12 @@ angular.module('bxSocket', [])
       wait()
       return promise
 
+    wrap = (cb) ->
+      # TODO: *.apply arguments
+      return (data) ->
+        apply scope || $rootScope, ->
+          cb && cb data
+
     apply = (scope, fn) ->
       if scope.$$phase or scope.$root.$$phase
         fn()
@@ -71,21 +77,24 @@ angular.module('bxSocket', [])
           cb && cb()
 
     on: (e, cb) ->
-      socket.removeListener e, cb
+      socket.removeListener e, wrap cb
+      socket.on e, wrap cb
 
+      ###
       socket.on e, (data) ->
         apply scope || $rootScope, ->
           cb && cb(data)
+      ###
 
     isListening: (e, cb) ->
       # get listeners for event
       listeners = socket.listeners e
 
       # return false if no listeners for event exist
-      return false if !listeners
+      return false if !listeners.length
 
       # loop through, return true if callback matches function
-      return true for func in listeners when cb is func
+      return true for func in listeners when wrap cb is func
 
       # return false if couldn't find
       return false

@@ -1,6 +1,6 @@
 angular.module('bxSocket', []).service('bxSocket', [
   '$rootScope', '$http', '$q', '$timeout', 'bxLogger', function($rootScope, $http, $q, $timeout, Logger) {
-    var apply, host, initialized, load, open, scope, socket;
+    var apply, host, initialized, load, open, scope, socket, wrap;
     scope = null;
     socket = null;
     initialized = false;
@@ -34,6 +34,13 @@ angular.module('bxSocket', []).service('bxSocket', [
       wait();
       return promise;
     };
+    wrap = function(cb) {
+      return function(data) {
+        return apply(scope || $rootScope, function() {
+          return cb && cb(data);
+        });
+      };
+    };
     apply = function(scope, fn) {
       if (scope.$$phase || scope.$root.$$phase) {
         return fn();
@@ -63,22 +70,24 @@ angular.module('bxSocket', []).service('bxSocket', [
         });
       },
       on: function(e, cb) {
-        socket.removeListener(e, cb);
-        return socket.on(e, function(data) {
-          return apply(scope || $rootScope, function() {
-            return cb && cb(data);
-          });
-        });
+        socket.removeListener(e, wrap(cb));
+        return socket.on(e, wrap(cb));
+        /*
+        socket.on e, (data) ->
+          apply scope || $rootScope, ->
+            cb && cb(data)
+        */
+
       },
       isListening: function(e, cb) {
         var func, listeners, _i, _len;
         listeners = socket.listeners(e);
-        if (!listeners) {
+        if (!listeners.length) {
           return false;
         }
         for (_i = 0, _len = listeners.length; _i < _len; _i++) {
           func = listeners[_i];
-          if (cb === func) {
+          if (wrap(cb === func)) {
             return true;
           }
         }
