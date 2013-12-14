@@ -107,8 +107,9 @@
   background-size: 100%;
 }
 
-.center {
+.centered {
   float: none;
+  display: block;
   margin-right: auto;
   margin-left: auto;
 }
