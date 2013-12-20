@@ -1,6 +1,6 @@
 angular.module('bxDraggable', [])
 
-.directive 'bxDraggable', ($document) ->
+.directive 'bxdraggable', ($document) ->
   (scope, element, attr) ->
     startX = 0
     startY = 0

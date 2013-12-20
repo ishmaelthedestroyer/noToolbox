@@ -1,8 +1,8 @@
 angular.module('bxPreventRightClick', [])
 
-.directive 'bxPreventRightClick', ($document) ->
+.directive 'bxpreventrightclick', ($document) ->
   (scope, element, attr) ->
-    if attr.bxPreventRightClick is 'true'
+    if attr.bxpreventrightclick is 'true'
       element.bind 'contextmenu', (e) ->
         scope.$apply ->
           e.preventDefault()

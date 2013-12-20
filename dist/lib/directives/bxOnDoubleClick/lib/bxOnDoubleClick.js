@@ -1,30 +1,30 @@
-angular.module('bxOnDoubleClick', []).directive('bxOnDoubleClick', function($timeout) {
+angular.module('bxOnDoubleClick', []).directive('bxondoubleclick', function($timeout) {
   return function(scope, element, attr) {
     return element.bind('click', function(e) {
       var speed;
-      if (attr.bxOnDoubleClick === 'ready') {
+      if (attr.bxondoubleclick === 'ready') {
         return scope.$apply(function() {
-          element.removeAttr('bxOnDoubleClick');
-          if (attr.bxOnDoubleClick === 'ready') {
-            attr.$set('bxOnDoubleClick', 'false');
+          element.removeAttr('bxondoubleclick');
+          if (attr.bxondoubleclick === 'ready') {
+            attr.$set('bxondoubleclick', 'false');
           }
-          scope.$eval(attr.bxOnDoubleClick);
+          scope.$eval(attr.bxondoubleclick);
           return e.preventDefault();
         });
       } else {
         scope.$apply(function() {
-          return attr.$set('bxOnDoubleClick', 'ready');
+          return attr.$set('bxondoubleclick', 'ready');
         });
-        speed = attr.bxOnDoubleClickSpeed;
+        speed = attr.bxondoubleclickspeed;
         if (speed) {
           speed = parseInt(speed);
         } else {
           speed = 200;
         }
         return $timeout(function() {
-          element.removeAttr('bxOnDoubleClick');
-          if (attr.bxOnDoubleClick === 'ready') {
-            return attr.$set('bxOnDoubleClick', 'false');
+          element.removeAttr('bxondoubleclick');
+          if (attr.bxondoubleclick === 'ready') {
+            return attr.$set('bxondoubleclick', 'false');
           }
         }, speed);
       }

@@ -1,28 +1,28 @@
 angular.module('bxOnDoubleClick', [])
 
-.directive 'bxOnDoubleClick', ($timeout) ->
+.directive 'bxondoubleclick', ($timeout) ->
   (scope, element, attr) ->
     element.bind 'click', (e) ->
-      if attr.bxOnDoubleClick is 'ready'
+      if attr.bxondoubleclick is 'ready'
         scope.$apply ->
-          element.removeAttr 'bxOnDoubleClick'
-          if attr.bxOnDoubleClick is 'ready'
-            attr.$set 'bxOnDoubleClick', 'false'
+          element.removeAttr 'bxondoubleclick'
+          if attr.bxondoubleclick is 'ready'
+            attr.$set 'bxondoubleclick', 'false'
 
-          scope.$eval attr.bxOnDoubleClick
+          scope.$eval attr.bxondoubleclick
           e.preventDefault()
       else
         scope.$apply ->
-          attr.$set 'bxOnDoubleClick', 'ready'
+          attr.$set 'bxondoubleclick', 'ready'
 
-        speed = attr.bxOnDoubleClickSpeed
+        speed = attr.bxondoubleclickspeed
         if speed
           speed = parseInt speed
         else
           speed = 200
 
         $timeout ->
-          element.removeAttr 'bxOnDoubleClick'
-          if attr.bxOnDoubleClick is 'ready'
-            attr.$set 'bxOnDoubleClick', 'false'
+          element.removeAttr 'bxondoubleclick'
+          if attr.bxondoubleclick is 'ready'
+            attr.$set 'bxondoubleclick', 'false'
         , speed

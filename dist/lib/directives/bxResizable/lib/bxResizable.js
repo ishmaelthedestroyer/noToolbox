@@ -1,9 +1,9 @@
-angular.module('bxResizable', []).directive('bxResizable', function($document) {
+angular.module('bxResizable', []).directive('bxresizable', function($document) {
   return function(scope, element, attr) {
     var image, mousemove, mouseup, offset, resize;
     offset = 8;
-    offset = attr.bxResizableOffset || 8;
-    image = attr.bxResizableImage || '/assets/vendor/ngToolboxx/dist/img/resize-white.png';
+    offset = attr.bxresizable || 8;
+    image = attr.bxresizable || '/assets/vendor/ngToolboxx/dist/img/resize-white.png';
     resize = document.createElement('img');
     resize.setAttribute('src', image);
     resize.style.width = '20px';

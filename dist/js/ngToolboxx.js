@@ -1,14 +1,14 @@
-angular.module('bxAnimateToCenter', []).directive('bxAnimateToCenter', function($window) {
+angular.module('bxAnimateToCenter', []).directive('bxanimatetocenter', function($window) {
   return function(scope, element, attr) {
     var h, offsetx, offsety, speed, w, x, y;
-    speed = parseInt(attr.animatespeed || 1000);
-    offsetx = parseInt(attr.animateoffsetx || 0);
-    offsety = parseInt(attr.animateoffsety || 0);
+    speed = parseInt(attr.bxanimatespeed || 1000);
+    offsetx = parseInt(attr.bxanimateoffsetx || 0);
+    offsety = parseInt(attr.bxanimateoffsety || 0);
     x = ($window.innerHeight / 2) - (element.height() / 2) + offsetx;
     y = ($window.innerWidth / 2) - (element.width() / 2) + offsety;
     console.log('params: ' + offsetx + ',' + offsety + ',' + speed);
-    w = attr.animatetowidth || element.width();
-    h = attr.animatetoheight || element.height();
+    w = attr.bxanimatetowidth || element.width();
+    h = attr.bxanimatetoheight || element.height();
     element.css({
       left: 0 + 'px',
       top: 0 + 'px',
@@ -21,12 +21,12 @@ angular.module('bxAnimateToCenter', []).directive('bxAnimateToCenter', function(
       width: w + 'px',
       height: h + 'px'
     }, speed, function() {
-      return element.removeAttr('bxAnimateToCenter');
+      return element.removeAttr('bxanimatetocenter');
     });
   };
 });
 
-angular.module('bxDraggable', []).directive('bxDraggable', function($document) {
+angular.module('bxDraggable', []).directive('bxdraggable', function($document) {
   return function(scope, element, attr) {
     var mousemove, mouseup, startX, startY, x, y;
     startX = 0;
@@ -58,12 +58,12 @@ angular.module('bxDraggable', []).directive('bxDraggable', function($document) {
   };
 });
 
-angular.module('bxFireOnClick', []).directive('bxFireOnClick', function() {
+angular.module('bxFireOnClick', []).directive('bxfireonclick', function() {
   return function(scope, element, attr) {
     var func;
     func = function(e) {
       return scope.$apply(function() {
-        scope.$eval(attr.fireonclick);
+        scope.$eval(attr.bxfireonclick);
         return e.preventDefault();
       });
     };
@@ -72,11 +72,11 @@ angular.module('bxFireOnClick', []).directive('bxFireOnClick', function() {
   };
 });
 
-angular.module('bxFisheye', []).directive('bxFisheye', function($document) {
+angular.module('bxFisheye', []).directive('bxfisheye', function($document) {
   return function(scope, element, attr) {
     var maxHeight, maxWidth, radius, scale, startHeight, startWidth;
-    scale = attr.fisheyescale || 0.8;
-    radius = attr.fisheyeradius || 70;
+    scale = attr.bxfisheyescale || 0.8;
+    radius = attr.bxfisheyeradius || 70;
     scale = parseFloat(scale);
     radius = parseInt(radius);
     startWidth = element.width();
@@ -110,33 +110,33 @@ angular.module('bxFisheye', []).directive('bxFisheye', function($document) {
   };
 });
 
-angular.module('bxOnDoubleClick', []).directive('bxOnDoubleClick', function($timeout) {
+angular.module('bxOnDoubleClick', []).directive('bxondoubleclick', function($timeout) {
   return function(scope, element, attr) {
     return element.bind('click', function(e) {
       var speed;
-      if (attr.bxOnDoubleClick === 'ready') {
+      if (attr.bxondoubleclick === 'ready') {
         return scope.$apply(function() {
-          element.removeAttr('bxOnDoubleClick');
-          if (attr.bxOnDoubleClick === 'ready') {
-            attr.$set('bxOnDoubleClick', 'false');
+          element.removeAttr('bxondoubleclick');
+          if (attr.bxondoubleclick === 'ready') {
+            attr.$set('bxondoubleclick', 'false');
           }
-          scope.$eval(attr.bxOnDoubleClick);
+          scope.$eval(attr.bxondoubleclick);
           return e.preventDefault();
         });
       } else {
         scope.$apply(function() {
-          return attr.$set('bxOnDoubleClick', 'ready');
+          return attr.$set('bxondoubleclick', 'ready');
         });
-        speed = attr.bxOnDoubleClickSpeed;
+        speed = attr.bxondoubleclickspeed;
         if (speed) {
           speed = parseInt(speed);
         } else {
           speed = 200;
         }
         return $timeout(function() {
-          element.removeAttr('bxOnDoubleClick');
-          if (attr.bxOnDoubleClick === 'ready') {
-            return attr.$set('bxOnDoubleClick', 'false');
+          element.removeAttr('bxondoubleclick');
+          if (attr.bxondoubleclick === 'ready') {
+            return attr.$set('bxondoubleclick', 'false');
           }
         }, speed);
       }
@@ -144,17 +144,17 @@ angular.module('bxOnDoubleClick', []).directive('bxOnDoubleClick', function($tim
   };
 });
 
-angular.module('bxOnKeyUp', []).directive('bxOnKeyUp', function($document) {
+angular.module('bxOnKeyUp', []).directive('bxonkeyup', function($document) {
   return function(scope, element, attr) {
     return element.bind('keyup', function() {
-      return scope.$apply(attr.bxOnKeyUp);
+      return scope.$apply(attr.bxonkeyup);
     });
   };
 });
 
-angular.module('bxPreventRightClick', []).directive('bxPreventRightClick', function($document) {
+angular.module('bxPreventRightClick', []).directive('bxpreventrightclick', function($document) {
   return function(scope, element, attr) {
-    if (attr.bxPreventRightClick === 'true') {
+    if (attr.bxpreventrightclick === 'true') {
       return element.bind('contextmenu', function(e) {
         return scope.$apply(function() {
           e.preventDefault();
@@ -165,12 +165,12 @@ angular.module('bxPreventRightClick', []).directive('bxPreventRightClick', funct
   };
 });
 
-angular.module('bxResizable', []).directive('bxResizable', function($document) {
+angular.module('bxResizable', []).directive('bxresizable', function($document) {
   return function(scope, element, attr) {
     var image, mousemove, mouseup, offset, resize;
     offset = 8;
-    offset = attr.bxResizableOffset || 8;
-    image = attr.bxResizableImage || '/assets/vendor/ngToolboxx/dist/img/resize-white.png';
+    offset = attr.bxresizable || 8;
+    image = attr.bxresizable || '/assets/vendor/ngToolboxx/dist/img/resize-white.png';
     resize = document.createElement('img');
     resize.setAttribute('src', image);
     resize.style.width = '20px';
@@ -211,10 +211,10 @@ angular.module('bxResizable', []).directive('bxResizable', function($document) {
   };
 });
 
-angular.module('bxRightClickMenu', []).directive('bxRightClickMenu', function($document) {
+angular.module('bxRightClickMenu', []).directive('bxrightclickmenu', function($document) {
   return function(scope, element, attr) {
     var menu;
-    menu = $(attr.bxRightClickMenu);
+    menu = $(attr.bxrightclickmenu);
     menu.css({
       position: 'fixed'
     });
@@ -235,7 +235,7 @@ angular.module('bxRightClickMenu', []).directive('bxRightClickMenu', function($d
   };
 });
 
-angular.module('bxSluggify', []).directive('bxSluggify', function($document) {
+angular.module('bxSluggify', []).directive('bxsluggify', function($document) {
   return function(scope, element, attr) {
     var sluggify;
     sluggify = function(text) {
@@ -249,12 +249,12 @@ angular.module('bxSluggify', []).directive('bxSluggify', function($document) {
   };
 });
 
-angular.module('bxSubmitOnEnter', []).directive('bxSubmitOnEnter', function() {
+angular.module('bxSubmitOnEnter', []).directive('bxsubmitonenter', function() {
   return function(scope, element, attr) {
     return element.bind('keydown keypress', function(e) {
       if (e.which === 13) {
         scope.$apply(function() {
-          return scope.$eval(attr.bxSubmitOnEnter);
+          return scope.$eval(attr.bxsubmitonenter);
         });
         return e.preventDefault();
       }

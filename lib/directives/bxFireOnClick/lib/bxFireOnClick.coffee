@@ -1,10 +1,10 @@
 angular.module('bxFireOnClick', [])
 
-.directive 'bxFireOnClick', () ->
+.directive 'bxfireonclick', () ->
   (scope, element, attr) ->
     func = (e) ->
       scope.$apply ->
-        scope.$eval attr.fireonclick
+        scope.$eval attr.bxfireonclick
         e.preventDefault()
 
     element.bind 'contextmenu' , func

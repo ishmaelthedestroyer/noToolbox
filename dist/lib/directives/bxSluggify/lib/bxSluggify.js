@@ -1,4 +1,4 @@
-angular.module('bxSluggify', []).directive('bxSluggify', function($document) {
+angular.module('bxSluggify', []).directive('bxsluggify', function($document) {
   return function(scope, element, attr) {
     var sluggify;
     sluggify = function(text) {

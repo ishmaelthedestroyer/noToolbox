@@ -1,10 +1,10 @@
 angular.module('bxSubmitOnEnter', [])
 
-.directive 'bxSubmitOnEnter', () ->
+.directive 'bxsubmitonenter', () ->
   (scope, element, attr) ->
     element.bind 'keydown keypress', (e) ->
       if e.which == 13
         scope.$apply ->
-          scope.$eval attr.bxSubmitOnEnter
+          scope.$eval attr.bxsubmitonenter
 
         e.preventDefault()

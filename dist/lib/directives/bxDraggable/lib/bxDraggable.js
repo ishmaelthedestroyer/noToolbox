@@ -1,4 +1,4 @@
-angular.module('bxDraggable', []).directive('bxDraggable', function($document) {
+angular.module('bxDraggable', []).directive('bxdraggable', function($document) {
   return function(scope, element, attr) {
     var mousemove, mouseup, startX, startY, x, y;
     startX = 0;

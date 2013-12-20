@@ -1,9 +1,9 @@
-angular.module('bxFireOnClick', []).directive('bxFireOnClick', function() {
+angular.module('bxFireOnClick', []).directive('bxfireonclick', function() {
   return function(scope, element, attr) {
     var func;
     func = function(e) {
       return scope.$apply(function() {
-        scope.$eval(attr.fireonclick);
+        scope.$eval(attr.bxfireonclick);
         return e.preventDefault();
       });
     };

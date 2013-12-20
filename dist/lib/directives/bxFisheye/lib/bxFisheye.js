@@ -1,8 +1,8 @@
-angular.module('bxFisheye', []).directive('bxFisheye', function($document) {
+angular.module('bxFisheye', []).directive('bxfisheye', function($document) {
   return function(scope, element, attr) {
     var maxHeight, maxWidth, radius, scale, startHeight, startWidth;
-    scale = attr.fisheyescale || 0.8;
-    radius = attr.fisheyeradius || 70;
+    scale = attr.bxfisheyescale || 0.8;
+    radius = attr.bxfisheyeradius || 70;
     scale = parseFloat(scale);
     radius = parseInt(radius);
     startWidth = element.width();

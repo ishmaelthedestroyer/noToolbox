@@ -1,8 +1,8 @@
 angular.module('bxRightClickMenu', [])
 
-.directive 'bxRightClickMenu', ($document) ->
+.directive 'bxrightclickmenu', ($document) ->
   (scope, element, attr) ->
-    menu = $(attr.bxRightClickMenu)
+    menu = $(attr.bxrightclickmenu)
     menu.css
       position: 'fixed'
 

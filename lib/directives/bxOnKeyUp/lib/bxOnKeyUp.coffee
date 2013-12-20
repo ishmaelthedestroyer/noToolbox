@@ -1,6 +1,6 @@
 angular.module('bxOnKeyUp', [])
 
-.directive 'bxOnKeyUp', ($document) ->
+.directive 'bxonkeyup', ($document) ->
   (scope, element, attr) ->
     element.bind 'keyup', () ->
-      scope.$apply attr.bxOnKeyUp
+      scope.$apply attr.bxonkeyup

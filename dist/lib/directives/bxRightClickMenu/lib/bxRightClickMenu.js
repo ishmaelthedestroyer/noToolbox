@@ -1,7 +1,7 @@
-angular.module('bxRightClickMenu', []).directive('bxRightClickMenu', function($document) {
+angular.module('bxRightClickMenu', []).directive('bxrightclickmenu', function($document) {
   return function(scope, element, attr) {
     var menu;
-    menu = $(attr.bxRightClickMenu);
+    menu = $(attr.bxrightclickmenu);
     menu.css({
       position: 'fixed'
     });

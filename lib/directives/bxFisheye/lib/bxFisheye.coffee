@@ -1,9 +1,9 @@
 angular.module('bxFisheye', [])
 
-.directive 'bxFisheye', ($document) ->
+.directive 'bxfisheye', ($document) ->
   (scope, element, attr) ->
-    scale = attr.fisheyescale || 0.8
-    radius = attr.fisheyeradius || 70
+    scale = attr.bxfisheyescale || 0.8
+    radius = attr.bxfisheyeradius || 70
 
     scale = parseFloat scale
     radius = parseInt radius

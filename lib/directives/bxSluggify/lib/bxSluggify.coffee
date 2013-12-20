@@ -1,6 +1,6 @@
 angular.module('bxSluggify', [])
 
-.directive 'bxSluggify', ($document) ->
+.directive 'bxsluggify', ($document) ->
   (scope, element, attr) ->
     sluggify = (text) ->
       return text.toLowerCase()

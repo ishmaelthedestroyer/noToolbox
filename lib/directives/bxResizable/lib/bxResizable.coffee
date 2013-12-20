@@ -1,10 +1,10 @@
 angular.module('bxResizable', [])
 
-.directive 'bxResizable', ($document) ->
+.directive 'bxresizable', ($document) ->
   (scope, element, attr) ->
     offset = 8
-    offset = attr.bxResizableOffset || 8
-    image = attr.bxResizableImage ||
+    offset = attr.bxresizable || 8
+    image = attr.bxresizable ||
       '/assets/vendor/ngToolboxx/dist/img/resize-white.png'
 
     resize = document.createElement 'img'
@@ -23,8 +23,10 @@ angular.module('bxResizable', [])
     mousemove = (event) ->
       w = event.pageX - element.offset().left + offset
       h = event.pageY -  element.offset().top + offset
-      if w < 50 then w = 50
-      if h < 50 then h = 50
+
+      w = 50 if w < 50
+      h = 50 if h < 50
+
       element.css
         width: w + 'px'
         height: h + 'px'
