@@ -1243,9 +1243,7 @@ angular.module('bxSocket', []).service('bxSocket', [
         });
       },
       on: function(e, cb) {
-        if (isListening(e, cb)) {
-          return false;
-        }
+        socket.removeListener(e, wrap(cb));
         socket.on(e, wrap(cb));
         if (!listeners[e]) {
           return listeners[e] = [cb];

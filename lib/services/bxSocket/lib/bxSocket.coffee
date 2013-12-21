@@ -95,8 +95,9 @@ angular.module('bxSocket', [])
 
     on: (e, cb) ->
       # if already callback already attached to event
-      return false if isListening e, cb
-      # socket.removeListener e, wrap cb
+      # return false if isListening e, cb
+
+      socket.removeListener e, wrap cb
       socket.on e, wrap cb
 
       # add to listeners
