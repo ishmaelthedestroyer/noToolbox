@@ -152,6 +152,24 @@ angular.module('bxOnKeyUp', []).directive('bxonkeyup', function($document) {
   };
 });
 
+angular.module('bxOnResize', []).directive('bxonresize', function($window) {
+  return function(scope, element, attr) {
+    var h, w;
+    w = element.width();
+    h = element.height();
+    return angular.element($window).bind('resize', function(e) {
+      if (w !== element.width() || h !== element.height()) {
+        w = element.width();
+        h = element.height();
+        return scope.$apply(function() {
+          scope.$eval(attr.bxonresize);
+          return e.preventDefault();
+        });
+      }
+    });
+  };
+});
+
 angular.module('bxPreventRightClick', []).directive('bxpreventrightclick', function($document) {
   return function(scope, element, attr) {
     if (attr.bxpreventrightclick === 'true') {
@@ -1865,4 +1883,4 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
   }
 ]);
 
-angular.module('ngToolboxx', ['bxCtrl', 'bxDraggable', 'bxFireOnClick', 'bxFisheye', 'bxOnDoubleClick', 'bxOnKeyUp', 'bxPreventRightClick', 'bxResizable', 'bxRightClickMenu', 'bxSluggify', 'bxSubmitOnEnter', 'bxFormatFileSize', 'bxErrorInterceptor', 'bxEventEmitter', 'bxLogger', 'bxNotify', 'bxQueue', 'bxResource', 'bxSession', 'bxSocket', 'bxStream', 'bxUtil']);
+angular.module('ngToolboxx', ['bxCtrl', 'bxDraggable', 'bxFireOnClick', 'bxFisheye', 'bxOnDoubleClick', 'bxOnKeyUp', 'bxOnResize', 'bxPreventRightClick', 'bxResizable', 'bxRightClickMenu', 'bxSluggify', 'bxSubmitOnEnter', 'bxFormatFileSize', 'bxErrorInterceptor', 'bxEventEmitter', 'bxLogger', 'bxNotify', 'bxQueue', 'bxResource', 'bxSession', 'bxSocket', 'bxStream', 'bxUtil']);

@@ -6,6 +6,7 @@ angular.module 'ngToolboxx', [
   'bxFisheye'
   'bxOnDoubleClick'
   'bxOnKeyUp'
+  'bxOnResize'
   'bxPreventRightClick'
   'bxResizable'
   'bxRightClickMenu'
