@@ -54,9 +54,18 @@ angular.module('bxQueue', []).factory('bxQueue', [
         return remove(promise);
       },
       clear: function() {
-        return apply(scope, function() {
-          return queue = [];
-        });
+        var promise, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = queue.length; _i < _len; _i++) {
+          promise = queue[_i];
+          _results.push(remove(promise));
+        }
+        return _results;
+        /*
+        apply scope, () ->
+          queue = []
+        */
+
       }
     };
   }

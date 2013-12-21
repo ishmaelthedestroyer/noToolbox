@@ -46,6 +46,9 @@ angular.module('bxQueue', [])
     remove: (promise) ->
       remove promise
     clear: () ->
+      remove promise for promise in queue
+      ###
       apply scope, () ->
         queue = []
+      ###
 ]
