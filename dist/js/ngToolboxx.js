@@ -1319,6 +1319,12 @@ angular.module('bxSocket', []).service('bxSocket', [
               }
             }, 1000);
           };
+          if (!initialized) {
+            socket = io.connect(host);
+            initialized = true;
+          } else {
+            socket.socket.connect();
+          }
           waiting = true;
           count(wait || 10, deferred);
           socket.on('server:handshake', function(data) {
@@ -1331,12 +1337,6 @@ angular.module('bxSocket', []).service('bxSocket', [
             Logger.info('Handshake successful.');
             return deferred.resolve(data);
           });
-          if (!initialized) {
-            socket = io.connect(host);
-            initialized = true;
-          } else {
-            socket.socket.connect();
-          }
           return deferred.promise;
         });
       }

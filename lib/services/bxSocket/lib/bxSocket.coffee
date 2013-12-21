@@ -158,22 +158,19 @@ angular.module('bxSocket', [])
               count max, deferred
           , 1000
 
-        # initialize timedout connection request
-        waiting = true; count wait || 10, deferred
-
-        # set callback
-        socket.on 'server:handshake', (data) ->
-          return false if timedOut
-          delay = 0; open = true; waiting = false
-          Logger.info 'Handshake successful.'
-          deferred.resolve data
-
         if !initialized
           socket = io.connect host
           initialized = true
         else
           # deferred.resolve true
           socket.socket.connect()
+
+        waiting = true; count wait || 10, deferred
+        socket.on 'server:handshake', (data) ->
+          return false if timedOut
+          delay = 0; open = true; waiting = false
+          Logger.info 'Handshake successful.'
+          deferred.resolve data
 
         return deferred.promise
 ]
