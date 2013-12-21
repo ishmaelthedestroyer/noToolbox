@@ -1290,7 +1290,7 @@ angular.module('bxSocket', []).service('bxSocket', [
       open: function(url, wait) {
         var deferred, promise;
         deferred = $q.defer();
-        if (open || socket.socket.connected) {
+        if (open || (socket && socket.socket && socket.socket.connected)) {
           if (!open) {
             open = true;
           }

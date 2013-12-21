@@ -135,7 +135,7 @@ angular.module('bxSocket', [])
       deferred = $q.defer()
 
       # return resolved promise if open
-      if open || socket.socket.connected
+      if open || (socket and socket.socket and socket.socket.connected)
         open = true if !open
         promise = deferred.promise
         deferred.resolve true
