@@ -54,6 +54,20 @@ angular.module('bxSocket', [])
         apply scope || $rootScope, ->
           cb && cb data
 
+    isListening = (e, cb) ->
+      # return false if no listeners for event exist
+      return false if !listeners || !listeners[e]
+
+      # loop through, return true if callback matches function
+      for func in listeners[e]
+        Logger.debug 'Debugging isListening func.',
+          func: func
+          cb: cb
+        return true if func.toString() is cb.toString()
+
+      # return false if couldn't find
+      return false
+
     apply = (scope, fn) ->
       if scope.$$phase or scope.$root.$$phase
         fn()
@@ -80,7 +94,9 @@ angular.module('bxSocket', [])
           cb && cb()
 
     on: (e, cb) ->
-      socket.removeListener e, wrap cb
+      # if already callback already attached to event
+      return false if isListening e, cb
+      # socket.removeListener e, wrap cb
       socket.on e, wrap cb
 
       # add to listeners
@@ -98,18 +114,7 @@ angular.module('bxSocket', [])
       ###
 
     isListening: (e, cb) ->
-      # return false if no listeners for event exist
-      return false if !listeners || !listeners[e]
-
-      # loop through, return true if callback matches function
-      for func in listeners[e]
-        Logger.debug 'Debugging isListening func.',
-          func: func
-          cb: cb
-        return true if func.toString() is cb.toString()
-
-      # return false if couldn't find
-      return false
+      return isListening e, cb
 
     removeListener: (e, cb) ->
       socket.removeListener e, wrap cb
@@ -130,7 +135,8 @@ angular.module('bxSocket', [])
       deferred = $q.defer()
 
       # return resolved promise if open
-      if open
+      if open || socket.socket.connected
+        open = true if !open
         promise = deferred.promise
         deferred.resolve true
         return promise

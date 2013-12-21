@@ -1154,7 +1154,7 @@ angular.module('bxStream', ['bxUtil', 'bxEventEmitter']).service('bxStream', [
 
 angular.module('bxSocket', []).service('bxSocket', [
   '$rootScope', '$http', '$q', '$timeout', 'bxLogger', function($rootScope, $http, $q, $timeout, Logger) {
-    var apply, host, initialized, listeners, load, open, scope, socket, wrap;
+    var apply, host, initialized, isListening, listeners, load, open, scope, socket, wrap;
     scope = null;
     socket = null;
     initialized = false;
@@ -1196,6 +1196,24 @@ angular.module('bxSocket', []).service('bxSocket', [
         });
       };
     };
+    isListening = function(e, cb) {
+      var func, _i, _len, _ref;
+      if (!listeners || !listeners[e]) {
+        return false;
+      }
+      _ref = listeners[e];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        func = _ref[_i];
+        Logger.debug('Debugging isListening func.', {
+          func: func,
+          cb: cb
+        });
+        if (func.toString() === cb.toString()) {
+          return true;
+        }
+      }
+      return false;
+    };
     apply = function(scope, fn) {
       if (scope.$$phase || scope.$root.$$phase) {
         return fn();
@@ -1225,7 +1243,9 @@ angular.module('bxSocket', []).service('bxSocket', [
         });
       },
       on: function(e, cb) {
-        socket.removeListener(e, wrap(cb));
+        if (isListening(e, cb)) {
+          return false;
+        }
         socket.on(e, wrap(cb));
         if (!listeners[e]) {
           return listeners[e] = [cb];
@@ -1240,22 +1260,7 @@ angular.module('bxSocket', []).service('bxSocket', [
 
       },
       isListening: function(e, cb) {
-        var func, _i, _len, _ref;
-        if (!listeners || !listeners[e]) {
-          return false;
-        }
-        _ref = listeners[e];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          func = _ref[_i];
-          Logger.debug('Debugging isListening func.', {
-            func: func,
-            cb: cb
-          });
-          if (func.toString() === cb.toString()) {
-            return true;
-          }
-        }
-        return false;
+        return isListening(e, cb);
       },
       removeListener: function(e, cb) {
         var func, i, _i, _len, _ref, _results;
@@ -1285,7 +1290,10 @@ angular.module('bxSocket', []).service('bxSocket', [
       open: function(url, wait) {
         var deferred, promise;
         deferred = $q.defer();
-        if (open) {
+        if (open || socket.socket.connected) {
+          if (!open) {
+            open = true;
+          }
           promise = deferred.promise;
           deferred.resolve(true);
           return promise;
