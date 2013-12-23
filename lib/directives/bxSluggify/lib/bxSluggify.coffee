@@ -1,7 +1,10 @@
 angular.module('bxSluggify', [])
 
-.directive 'bxsluggify', ($document) ->
+.directive 'bxsluggify', ($document, $parse) ->
   (scope, element, attr) ->
+    ngModel = $parse $attrs['ngModel']
+    value = $parse($attrs['ngValue'])($scope)
+
     cb = () ->
       scope.$apply ->
         scope.$eval attr.bxsluggify
@@ -15,4 +18,10 @@ angular.module('bxSluggify', [])
     element.bind 'keyup', () ->
       slug = sluggify element.val() # make slug
       scope.$apply element.val slug # set slug
+
+      # assign slug to model
+      if attrs['ngModel']
+        $scope.$apply () ->
+          return ngModel.assign $scope, slug
+
       cb() # fire callback

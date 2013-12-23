@@ -253,9 +253,11 @@ angular.module('bxRightClickMenu', []).directive('bxrightclickmenu', function($d
   };
 });
 
-angular.module('bxSluggify', []).directive('bxsluggify', function($document) {
+angular.module('bxSluggify', []).directive('bxsluggify', function($document, $parse) {
   return function(scope, element, attr) {
-    var cb, sluggify;
+    var cb, ngModel, sluggify, value;
+    ngModel = $parse($attrs['ngModel']);
+    value = $parse($attrs['ngValue'])($scope);
     cb = function() {
       return scope.$apply(function() {
         return scope.$eval(attr.bxsluggify);
@@ -268,6 +270,11 @@ angular.module('bxSluggify', []).directive('bxsluggify', function($document) {
       var slug;
       slug = sluggify(element.val());
       scope.$apply(element.val(slug));
+      if (attrs['ngModel']) {
+        $scope.$apply(function() {
+          return ngModel.assign($scope, slug);
+        });
+      }
       return cb();
     });
   };
