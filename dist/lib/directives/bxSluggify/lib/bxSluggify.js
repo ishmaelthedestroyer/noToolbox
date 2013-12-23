@@ -1,8 +1,8 @@
 angular.module('bxSluggify', []).directive('bxsluggify', function($document, $parse) {
   return function(scope, element, attr) {
     var cb, ngModel, sluggify, value;
-    ngModel = $parse($attrs['ngModel']);
-    value = $parse($attrs['ngValue'])($scope);
+    ngModel = $parse(attr.ngModal);
+    value = $parse(attr.ngValue)($scope);
     cb = function() {
       return scope.$apply(function() {
         return scope.$eval(attr.bxsluggify);
@@ -15,7 +15,7 @@ angular.module('bxSluggify', []).directive('bxsluggify', function($document, $pa
       var slug;
       slug = sluggify(element.val());
       scope.$apply(element.val(slug));
-      if (attrs['ngModel']) {
+      if (attr.ngModel) {
         $scope.$apply(function() {
           return ngModel.assign($scope, slug);
         });
