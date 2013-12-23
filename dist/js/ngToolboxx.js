@@ -1324,7 +1324,7 @@ angular.module('bxSocket', []).service('bxSocket', [
           return promise;
         }
         return load(url).then(function() {
-          var count, delay, timedOut, waiting;
+          var cb, count, delay, timedOut, waiting;
           waiting = false;
           timedOut = false;
           delay = 0;
@@ -1350,16 +1350,31 @@ angular.module('bxSocket', []).service('bxSocket', [
           } else {
             socket.socket.connect();
           }
+          cb = function(err) {
+            delay = 0;
+            open = false;
+            waiting = false;
+            if (deferred) {
+              return deferred.reject(err);
+            }
+          };
+          socket.on('uncaughtException', cb);
+          socket.on('error', cb);
           waiting = true;
           count(wait || 10, deferred);
           socket.on('server:handshake', function(data) {
             if (timedOut) {
               return false;
             }
+            if (!waiting) {
+              return false;
+            }
             delay = 0;
             open = true;
             waiting = false;
             Logger.info('Handshake successful.');
+            socket.removeListener('uncaughtException', cb);
+            socket.removeListener('error', cb);
             return deferred.resolve(data);
           });
           return deferred.promise;

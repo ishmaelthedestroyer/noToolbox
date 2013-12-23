@@ -166,12 +166,29 @@ angular.module('bxSocket', [])
           # deferred.resolve true
           socket.socket.connect()
 
+        # set socket error callback
+        cb = (err) ->
+          delay = 0; open = false; waiting = false
+          deferred.reject err if deferred
+
+        # set socket err callback
+        socket.on 'uncaughtException', cb
+        socket.on 'error', cb
+
         waiting = true; count wait || 10, deferred
         socket.on 'server:handshake', (data) ->
           return false if timedOut
+          return false if !waiting
+
           delay = 0; open = true; waiting = false
           Logger.info 'Handshake successful.'
+
+          # remove error callbacks
+          socket.removeListener 'uncaughtException', cb
+          socket.removeListener 'error', cb
+
           deferred.resolve data
+
 
         return deferred.promise
 ]
