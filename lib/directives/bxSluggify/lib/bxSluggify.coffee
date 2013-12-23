@@ -2,8 +2,8 @@ angular.module('bxSluggify', [])
 
 .directive 'bxsluggify', ($document, $parse) ->
   (scope, element, attr) ->
-    ngModel = $parse attr.ngModal
-    value = $parse(attr.ngValue)($scope)
+    ngModel = $parse attr.ngModel
+    value = $parse(attr.ngValue)(scope)
 
     cb = () ->
       scope.$apply ->
@@ -21,7 +21,7 @@ angular.module('bxSluggify', [])
 
       # assign slug to model
       if attr.ngModel
-        $scope.$apply () ->
-          return ngModel.assign $scope, slug
+        scope.$apply () ->
+          return ngModel.assign scope, slug
 
       cb() # fire callback

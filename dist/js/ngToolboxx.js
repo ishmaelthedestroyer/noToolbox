@@ -256,8 +256,8 @@ angular.module('bxRightClickMenu', []).directive('bxrightclickmenu', function($d
 angular.module('bxSluggify', []).directive('bxsluggify', function($document, $parse) {
   return function(scope, element, attr) {
     var cb, ngModel, sluggify, value;
-    ngModel = $parse(attr.ngModal);
-    value = $parse(attr.ngValue)($scope);
+    ngModel = $parse(attr.ngModel);
+    value = $parse(attr.ngValue)(scope);
     cb = function() {
       return scope.$apply(function() {
         return scope.$eval(attr.bxsluggify);
@@ -271,8 +271,8 @@ angular.module('bxSluggify', []).directive('bxsluggify', function($document, $pa
       slug = sluggify(element.val());
       scope.$apply(element.val(slug));
       if (attr.ngModel) {
-        $scope.$apply(function() {
-          return ngModel.assign($scope, slug);
+        scope.$apply(function() {
+          return ngModel.assign(scope, slug);
         });
       }
       return cb();
