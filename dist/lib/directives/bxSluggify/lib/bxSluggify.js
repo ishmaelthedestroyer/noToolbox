@@ -12,8 +12,8 @@ angular.module('bxSluggify', []).directive('bxsluggify', function($document) {
     return element.bind('keyup', function() {
       var slug;
       slug = sluggify(element.val());
-      cb();
-      return scope.$apply(element.val(slug));
+      scope.$apply(element.val(slug));
+      return cb();
     });
   };
 });

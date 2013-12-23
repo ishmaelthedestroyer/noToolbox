@@ -14,5 +14,5 @@ angular.module('bxSluggify', [])
 
     element.bind 'keyup', () ->
       slug = sluggify element.val() # make slug
-      cb() # fire callback
       scope.$apply element.val slug # set slug
+      cb() # fire callback
