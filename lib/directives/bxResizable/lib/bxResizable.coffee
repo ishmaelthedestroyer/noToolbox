@@ -1,4 +1,5 @@
 angular.module('bxResizable', [])
+###
 
 .directive 'bxresizable', ($document) ->
   (scope, element, attr) ->
@@ -41,3 +42,4 @@ angular.module('bxResizable', [])
       event.stopPropagation()
       $document.on 'mousemove', mousemove
       $document.on 'mouseup', mouseup
+###
