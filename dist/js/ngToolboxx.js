@@ -188,7 +188,7 @@ angular.module('bxResizable', []).directive('bxresizable', function($document) {
     var image, mousemove, mouseup, offset, resize;
     offset = 8;
     offset = attr.bxresizable || 8;
-    image = attr.bxresizable || '/assets/vendor/ngToolboxx/dist/img/resize-white.png';
+    image = attr.bxresizableimage || '/assets/vendor/ngToolboxx/dist/img/resize-white.png';
     resize = document.createElement('img');
     resize.setAttribute('src', image);
     resize.style.width = '20px';
@@ -199,6 +199,7 @@ angular.module('bxResizable', []).directive('bxresizable', function($document) {
     resize.style.position = 'absolute';
     element.append(resize);
     element.css({
+      position: 'relative',
       cursor: 'pointer'
     });
     mousemove = function(event) {

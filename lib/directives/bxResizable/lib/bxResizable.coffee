@@ -4,7 +4,7 @@ angular.module('bxResizable', [])
   (scope, element, attr) ->
     offset = 8
     offset = attr.bxresizable || 8
-    image = attr.bxresizable ||
+    image = attr.bxresizableimage ||
       '/assets/vendor/ngToolboxx/dist/img/resize-white.png'
 
     resize = document.createElement 'img'
@@ -18,6 +18,7 @@ angular.module('bxResizable', [])
 
     element.append resize
     element.css
+      position: 'relative'
       cursor: 'pointer'
 
     mousemove = (event) ->
