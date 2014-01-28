@@ -1,9 +1,9 @@
 angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
 
 .controller 'bxCtrl', [
-  '$scope', '$rootScope', '$location', '$q',
+  '$scope', '$rootScope', '$state', '$location', '$q',
   'bxNotify', 'bxQueue', 'bxSession', 'bxLogger',
-  ($scope, $rootScope, $location, $q,
+  ($scope, $rootScope, $state, $location, $q,
   Notify, Queue, Session, Logger) ->
     Notify.setScope $scope
     Queue.setScope $scope
@@ -11,6 +11,10 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
 
     $scope.notifications = Notify.list()
     $scope.queue = Queue.list()
+
+    $scope.bxState = $state
+
+    Logger.debug 'Got state.', $scope.bxState
 
     $scope.loadSession = () ->
       deferred = $q.defer()

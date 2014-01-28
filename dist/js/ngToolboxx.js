@@ -1870,13 +1870,15 @@ angular.module('bxUtil', []).service('bxUtil', function() {
 });
 
 angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtrl', [
-  '$scope', '$rootScope', '$location', '$q', 'bxNotify', 'bxQueue', 'bxSession', 'bxLogger', function($scope, $rootScope, $location, $q, Notify, Queue, Session, Logger) {
+  '$scope', '$rootScope', '$state', '$location', '$q', 'bxNotify', 'bxQueue', 'bxSession', 'bxLogger', function($scope, $rootScope, $state, $location, $q, Notify, Queue, Session, Logger) {
     var apply;
     Notify.setScope($scope);
     Queue.setScope($scope);
     $scope.session = {};
     $scope.notifications = Notify.list();
     $scope.queue = Queue.list();
+    $scope.bxState = $state;
+    Logger.debug('Got state.', $scope.bxState);
     $scope.loadSession = function() {
       var deferred;
       deferred = $q.defer();

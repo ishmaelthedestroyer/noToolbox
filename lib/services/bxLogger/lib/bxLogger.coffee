@@ -33,8 +33,10 @@ angular.module('bxLogger', [])
 
     setMode = (m) ->
       config.mode = m
+
     setSentry = (s) ->
       config.sentry = s
+
     debug: (msg, info) ->
       color = 'color: #333; background-color: #fff;'
 
