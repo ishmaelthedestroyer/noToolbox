@@ -14,8 +14,6 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession'])
 
     $scope.bxState = $state
 
-    Logger.debug 'Got state.', $scope.bxState
-
     $scope.loadSession = () ->
       deferred = $q.defer()
 
