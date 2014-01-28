@@ -1878,7 +1878,6 @@ angular.module('bxCtrl', ['bxNotify', 'bxQueue', 'bxSession']).controller('bxCtr
     $scope.notifications = Notify.list();
     $scope.queue = Queue.list();
     $scope.bxState = $state;
-    Logger.debug('Got state.', $scope.bxState);
     $scope.loadSession = function() {
       var deferred;
       deferred = $q.defer();
