@@ -25,4 +25,6 @@ angular.module 'ngToolboxx', [
   'bxSocket'
   'bxStream'
   'bxUtil'
+
+  'bxPreserveQuery'
 ]

@@ -47,6 +47,8 @@ module.exports = (grunt) ->
 
         'lib/controllers/bxCtrl/lib/bxCtrl.*'
 
+        'lib/config/bxPreserveQuery/lib/bxPreserveQuery.*'
+
         'bin/toolboxx.*'
       ]
       html: [
