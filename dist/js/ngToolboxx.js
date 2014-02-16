@@ -1861,7 +1861,7 @@ angular.module('bxUtil', []).service('bxUtil', function() {
     inspect: inspect,
     arrayToHash: arrayToHash,
     inherits: inherits,
-    _extend: _extend,
+    extend: _extend,
     log: log,
     random: random,
     timestamp: timestamp,
