@@ -161,20 +161,20 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 
       deferred = $q.defer()
 
-      checkAuth = () ->
-        keys = authKey.split '.'
-        ref = session
-        i = 0
-
-        while i < keys.length
-          k = keys[i]
-          return false if !obj[k]
-          obj = obj[k]
-          ++i
-
-        return true
-
       bxSession.load().then (session) ->
+        checkAuth = () ->
+          keys = authKey.split '.'
+          ref = session
+          i = 0
+
+          while i < keys.length
+            k = keys[i]
+            return false if !obj[k]
+            obj = obj[k]
+            ++i
+
+          return true
+
         if reqAuth
           # if route requires auth but user not authenticated
           if !session? || typeof session isnt 'object' or !checkAuth()
