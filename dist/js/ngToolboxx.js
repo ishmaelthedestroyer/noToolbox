@@ -1038,7 +1038,7 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
   $q = null;
   this.auth = function(options) {
     return function() {
-      var authKey, deferred, handleError, redirAuth, reqAuth;
+      var authKey, checkAuth, deferred, handleError, redirAuth, reqAuth;
       handleError = function(err) {
         err = new Error(err);
         console.log(err);
@@ -1059,9 +1059,24 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
       reqAuth = options.reqAuth;
       redirAuth = options.redirAuth;
       deferred = $q.defer();
+      checkAuth = function() {
+        var i, k, keys, obj, ref;
+        keys = authKey.split('.');
+        ref = session;
+        i = 0;
+        while (i < keys.length) {
+          k = keys[i];
+          if (!obj[k]) {
+            return false;
+          }
+          obj = obj[k];
+          ++i;
+        }
+        return true;
+      };
       bxSession.load().then(function(session) {
         if (reqAuth) {
-          if ((session == null) || typeof session !== 'object' || !(authKey in session)) {
+          if ((session == null) || typeof session !== 'object' || !checkAuth()) {
             deferred.resolve(null);
             if ($state.current.name !== reqAuth) {
               return $state.go(reqAuth);
