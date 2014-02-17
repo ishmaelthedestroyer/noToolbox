@@ -174,16 +174,16 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
       bxSession.load().then(function(session) {
         var checkAuth;
         checkAuth = function() {
-          var i, k, keys, obj, ref;
+          var i, k, keys, ref;
           keys = authKey.split('.');
           ref = session;
           i = 0;
           while (i < keys.length) {
             k = keys[i];
-            if (!obj[k]) {
+            if (!ref[k]) {
               return false;
             }
-            obj = obj[k];
+            ref = ref[k];
             ++i;
           }
           return true;
@@ -194,7 +194,8 @@ angular.module('bxSession.auth', ['bxSession.session']).provider('bxAuth', funct
             if ($state.current.name !== reqAuth) {
               return $state.go(reqAuth);
             } else {
-              return $location.path($state.current.url);
+              $location.path($state.current.url);
+              return $state.go(reqAuth);
             }
           } else {
             return deferred.resolve(true);

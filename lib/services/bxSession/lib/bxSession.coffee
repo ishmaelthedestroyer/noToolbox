@@ -169,8 +169,8 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
 
           while i < keys.length
             k = keys[i]
-            return false if !obj[k]
-            obj = obj[k]
+            return false if !ref[k]
+            ref = ref[k]
             ++i
 
           return true
@@ -187,6 +187,7 @@ angular.module('bxSession.auth', [ 'bxSession.session' ])
               # already @ redirect target. this is a hack to fix the url
               # https://github.com/angular-ui/ui-router/issues/242
               $location.path $state.current.url
+              $state.go reqAuth
           else
             deferred.resolve true
         else if redirAuth # if meant to redirect authenticated users
