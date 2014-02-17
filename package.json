@@ -1,15 +1,15 @@
 {
-  "name": "ngToolboxx",
+  "name": "noToolbox",
   "version": "0.0.4",
-  "description": "Toolbelt for AngularJs applications.",
-  "main": "dist/ngToolboxx.js",
-  "repository": "https://github.com/ishmaelthedestroyer/ngToolboxx",
+  "description": "Nomads' toolbelt for AngularJs applications.",
+  "main": "dist/js/noToolbox.js",
+  "repository": "https://github.com/ishmaelthedestroyer/noToolbox",
   "keywords": [
     "angular",
     "angularjs",
     "utility"
   ],
-  "author": "ishmael td",
+  "author": "ishmaelthedestroyer",
   "dependencies": {
   },
   "devDependencies": {
