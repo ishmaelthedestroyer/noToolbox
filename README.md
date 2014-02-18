@@ -1,10 +1,10 @@
 # noToolbox
 
-Toolbelt for AngularJs apps, by Nomads. <br />
+Toolbox for AngularJs apps, by Nomads. <br />
 
 ### Controllers
 
-noCtrl - Exposes noToolbelt's functionality to the view. <br />
+noCtrl - Exposes noToolbox's functionality to the view. <br />
 
 ### Config
 
