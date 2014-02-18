@@ -119,12 +119,6 @@ module.exports = (grunt) ->
         'build'
       ]
 
-    # creates changelog on a new version
-    changelog:
-      options:
-        dest: 'CHANGELOG.md'
-        template: 'changelog.tpl'
-
     # increments version number, etc
     bump:
       options:
@@ -300,7 +294,5 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build:prod', [
     'build'
-
-    'changelog'
     'bump'
   ]

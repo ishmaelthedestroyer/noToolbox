@@ -1,4 +1,4 @@
-angular.module 'ngToolboxx', [
+angular.module 'noToolbox', [
   'noCtrl'
 
   'noDraggable'
