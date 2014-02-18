@@ -14,6 +14,15 @@
     <script src="../example/assets/vendor/modernizr/modernizr.js"></script>
   </head>
   <body data-ng-controller='AppCtrl'>
+    <div class="notification-container ng-cloak">
+      <div class="alert alert-dismissable alert-{{notification.type}}" ng-repeat="notification in notifications">
+        <button class="close" type="button" aria-hidden="true" ng-click="removeNotification($index)">
+          &times;
+        </button>
+        {{notification.message}}
+      </div>
+    </div>
+    <div class="loading-container ng-cloak" ng-class="{hidden: queue.length == 0}"></div>
     <div class='container header'>
       <div class='row'>
         <div class='clear-50'></div>
@@ -121,6 +130,53 @@
 
         <p class='lead'>Demos</p>
 
+        <b>Push Notifications</b>
+
+        <div class='clear-div'></div>
+
+        <button class='btn btn-success' ng-click='notify()'>
+          Push Notification
+        </button>
+
+        <button class='btn btn-warning' ng-click='notifyWarning()'>
+          Push Notification (Warning)
+        </button>
+
+        <button class='btn btn-danger' ng-click='notifyDanger()'>
+          Push Notification (Danger)
+        </button>
+
+        <div class='clear-50'></div>
+
+        <b>Console (Open developer's console to view)</b>
+
+        <div class='clear-div'></div>
+
+        <button class='btn btn-default' ng-click='logDebug()'>
+          Log (DEBUG) to console
+        </button>
+
+        <button class='btn btn-info' ng-click='logInfo()'>
+          Log (INFO) to console.
+        </button>
+
+        <button class='btn btn-warning' ng-click='logWarning()'>
+          Log (WARNING) to console.
+        </button>
+
+        <button class='btn btn-danger' ng-click='logError()'>
+          Log (ERROR) to console.
+        </button>
+
+        <div class='clear-50'></div>
+
+        <b>Queue</b>
+
+        <div class='clear-div'></div>
+
+        <button class='btn btn-primary' ng-click='pushQueue()'>
+          Asynchronous call
+        </button>
 
         <div class='clear-50'></div>
       </div>
