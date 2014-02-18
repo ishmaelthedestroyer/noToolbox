@@ -1,4 +1,4 @@
-angular.module('bxPreserveQuery', [])
+angular.module('noPreserveQuery', [])
 
 .run ['$rootScope', '$location', ($rootScope, $location) ->
   $rootScope.$on '$stateChangeStart',
