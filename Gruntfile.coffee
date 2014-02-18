@@ -7,7 +7,7 @@ module.exports = (grunt) ->
 
     dist:
       html: 'dist/html/index'
-      js: 'dist/js/ngToolboxx.js'
+      js: 'dist/js/noToolbox.js'
 
     files:
       meta: [
@@ -19,37 +19,37 @@ module.exports = (grunt) ->
         '.jshintrc'
       ]
       modules: [
-        'lib/directives/bxAnimateToCenter/lib/bxAnimateToCenter.*'
-        'lib/directives/bxDraggable/lib/bxDraggable.*'
-        'lib/directives/bxFireOnClick/lib/bxFireOnClick.*'
-        'lib/directives/bxFisheye/lib/bxFisheye.*'
-        'lib/directives/bxOnDoubleClick/lib/bxOnDoubleClick.*'
-        'lib/directives/bxOnKeyUp/lib/bxOnKeyUp.*'
-        'lib/directives/bxOnResize/lib/bxOnResize.*'
-        'lib/directives/bxPreventRightClick/lib/bxPreventRightClick.*'
-        'lib/directives/bxResizable/lib/bxResizable.*'
-        'lib/directives/bxRightClickMenu/lib/bxRightClickMenu.*'
-        'lib/directives/bxSluggify/lib/bxSluggify.*'
-        'lib/directives/bxSubmitOnEnter/lib/bxSubmitOnEnter.*'
+        'lib/directives/noAnimateToCenter/lib/noAnimateToCenter.*'
+        'lib/directives/noDraggable/lib/noDraggable.*'
+        'lib/directives/noFireOnClick/lib/noFireOnClick.*'
+        'lib/directives/noFisheye/lib/noFisheye.*'
+        'lib/directives/noOnDoubleClick/lib/noOnDoubleClick.*'
+        'lib/directives/noOnKeyUp/lib/noOnKeyUp.*'
+        'lib/directives/noOnResize/lib/noOnResize.*'
+        'lib/directives/noPreventRightClick/lib/noPreventRightClick.*'
+        'lib/directives/noResizable/lib/noResizable.*'
+        'lib/directives/noRightClickMenu/lib/noRightClickMenu.*'
+        'lib/directives/noSluggify/lib/noSluggify.*'
+        'lib/directives/noSubmitOnEnter/lib/noSubmitOnEnter.*'
 
-        'lib/filters/bxFormatFileSize/lib/bxFormatFileSize.*'
+        'lib/filters/noFormatFileSize/lib/noFormatFileSize.*'
 
-        'lib/services/bxErrorInterceptor/lib/bxErrorInterceptor.*'
-        'lib/services/bxEventEmitter/lib/bxEventEmitter.*'
-        'lib/services/bxLogger/lib/bxLogger.*'
-        'lib/services/bxNotify/lib/bxNotify.*'
-        'lib/services/bxQueue/lib/bxQueue.*'
-        'lib/services/bxResource/lib/bxResource.*'
-        'lib/services/bxSession/lib/bxSession.*'
-        'lib/services/bxStream/lib/bxStream.*'
-        'lib/services/bxSocket/lib/bxSocket.*'
-        'lib/services/bxUtil/lib/bxUtil.*'
+        'lib/services/noErrorInterceptor/lib/noErrorInterceptor.*'
+        'lib/services/noEventEmitter/lib/noEventEmitter.*'
+        'lib/services/noLogger/lib/noLogger.*'
+        'lib/services/noNotify/lib/noNotify.*'
+        'lib/services/noQueue/lib/noQueue.*'
+        'lib/services/noResource/lib/noResource.*'
+        'lib/services/noSession/lib/noSession.*'
+        'lib/services/noStream/lib/noStream.*'
+        'lib/services/noSocket/lib/noSocket.*'
+        'lib/services/noUtil/lib/noUtil.*'
 
-        'lib/controllers/bxCtrl/lib/bxCtrl.*'
+        'lib/controllers/noCtrl/lib/noCtrl.*'
 
-        'lib/config/bxPreserveQuery/lib/bxPreserveQuery.*'
+        'lib/config/noPreserveQuery/lib/noPreserveQuery.*'
 
-        'bin/toolboxx.*'
+        'bin/noToolbox.*'
       ]
       html: [
         'html/*.html.*'
@@ -217,7 +217,7 @@ module.exports = (grunt) ->
         src: [
           '<%= files.css %>'
         ]
-        dest: '<%= dir.dist %>css/ngToolboxx.css'
+        dest: '<%= dir.dist %>css/noToolbox.css'
         options:
           compile: true
           compress: false
