@@ -1,6 +1,13 @@
 # noToolbox
 
-Toolbox for AngularJs apps, by Nomads. <br />
+
+This is a toolbox for AngularJs apps. It includes a significant amount of services, directives, filters, and controllers to ease the process of constructing small to large scale apps with pre-built functionality. Features range from push notifications to logging, as well as a few libraries ported from Node.</p>
+
+<p>The source code can be found at <a href='http://github.com/ishmaelthedestroyer/noToolbox' target='_blank'>http://github.com/ishmaelthedestroyer/noToolbox</a>
+<br />
+The demo can be found at <a href='http://no-toolbox.herokuapp.com' target='_blank'>http://no-toolbox.herokuapp.com</a>
+<br /><br />
+The compiled source code (Javascript) can be found at <a href='https://github.com/ishmaelthedestroyer/noToolbox/blob/master/dist/js/noToolbox.js' target='_blank'>https://github.com/ishmaelthedestroyer/noToolbox/blob/master/dist/js/noToolbox.js</a>
 
 ### Controllers
 
