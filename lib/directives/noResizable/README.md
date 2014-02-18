@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Make any element resizable.
 
 Part of the noToolbelt / noSeed suite.
 

@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Enlarge an element as the mouse nears, creating a fisheye effect.
 
 Part of the noToolbelt / noSeed suite.
 

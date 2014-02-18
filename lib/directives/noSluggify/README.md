@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Sluggify text as the user types.
 
 Part of the noToolbelt / noSeed suite.
 

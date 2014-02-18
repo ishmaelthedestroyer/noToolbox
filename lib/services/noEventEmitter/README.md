@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Event emitter ported to Angular.
 
 Part of the noToolbelt / noSeed suite.
 

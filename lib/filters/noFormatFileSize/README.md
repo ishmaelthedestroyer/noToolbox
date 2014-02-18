@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Format bytes, kilobytes, megabytes, gigabytes.
 
 Part of the noToolbelt / noSeed suite.
 

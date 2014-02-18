@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Fire a function on double click.
 
 Part of the noToolbelt / noSeed suite.
 

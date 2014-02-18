@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Animate any element to the center of the screen.
 
 Part of the noToolbelt / noSeed suite.
 

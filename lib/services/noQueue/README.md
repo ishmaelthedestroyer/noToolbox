@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Asynchronous call management.
 
 Part of the noToolbelt / noSeed suite.
 

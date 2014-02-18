@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Fire a function when a user hits enter.
 
 Part of the noToolbelt / noSeed suite.
 

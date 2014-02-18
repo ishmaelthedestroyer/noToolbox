@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Prevent right click events from propagation and menu from creating.
 
 Part of the noToolbelt / noSeed suite.
 

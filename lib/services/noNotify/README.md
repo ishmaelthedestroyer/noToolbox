@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Push notifications.
 
 Part of the noToolbelt / noSeed suite.
 

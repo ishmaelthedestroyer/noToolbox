@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Logger for Angular apps.
 
 Part of the noToolbelt / noSeed suite.
 

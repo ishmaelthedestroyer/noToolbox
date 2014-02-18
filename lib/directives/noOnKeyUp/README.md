@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Fire a function on key up.
 
 Part of the noToolbelt / noSeed suite.
 

@@ -1,6 +1,4 @@
-Save query parameters in url when changing states.
-
-Part of the noToolbelt / noSeed suite.
+Socket.io wrapper.
 
 <a href='https://github.com/ishmaelthedestroyer/noSeed'>https://github.com/ishmaelthedestroyer/noSeed</a>
 <a href='https://github.com/ishmaelthedestroyer/noToolbelt'>https://github.com/ishmaelthedestroyer/noToolbelt</a>

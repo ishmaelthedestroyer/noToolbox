@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Create a right click menu.
 
 Part of the noToolbelt / noSeed suite.
 

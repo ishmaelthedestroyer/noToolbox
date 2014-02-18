@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Fire an angular function when an element is clicked.
 
 Part of the noToolbelt / noSeed suite.
 

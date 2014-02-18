@@ -1,4 +1,4 @@
-Save query parameters in url when changing states.
+Make any element draggable.
 
 Part of the noToolbelt / noSeed suite.
 
