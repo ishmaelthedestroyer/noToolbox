@@ -1415,13 +1415,13 @@ angular.module('noSocket', []).service('noSocket', [
 ]);
 
 angular.module('noUtil', []).service('noUtil', function() {
-  var apply, arrayToHash, async, format, formatArray, formatError, formatPrimitive, formatProperty, formatRegExp, formatValue, inherits, inspect, isArray, isBoolean, isBuffer, isDate, isError, isFunction, isNull, isNullOrUndefined, isNumber, isObject, isPrimitive, isRegExp, isString, isSymbol, isUndefined, log, months, objectToString, pad, random, reduceToSingleString, sluggify, stylizeNoColor, stylizeWithColor, timestamp, _extend;
+  var arrayToHash, async, format, formatArray, formatError, formatPrimitive, formatProperty, formatRegExp, formatValue, inherits, inspect, isArray, isBoolean, isBuffer, isDate, isError, isFunction, isNull, isNullOrUndefined, isNumber, isObject, isPrimitive, isRegExp, isString, isSymbol, isUndefined, log, months, objectToString, pad, random, reduceToSingleString, safeApply, sluggify, stylizeNoColor, stylizeWithColor, timestamp, _extend;
   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   formatRegExp = /%[sdj%]/g;
   sluggify = function(text) {
     return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   };
-  apply = function(scope, fn) {
+  safeApply = function(scope, fn) {
     if (scope.$$phase || scope.$root.$$phase) {
       return fn();
     } else {
@@ -1858,7 +1858,7 @@ angular.module('noUtil', []).service('noUtil', function() {
   };
   return {
     sluggify: sluggify,
-    apply: apply,
+    safeApply: safeApply,
     isArray: isArray,
     isBoolean: isBoolean,
     isNull: isNull,
