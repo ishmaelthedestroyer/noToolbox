@@ -890,7 +890,7 @@ angular.module('noResource', ['ngResource']).service('noResource', [
 ]);
 
 angular.module('noSession.session', []).service('noSession', [
-  '$rootScope', '$http', '$q', function($rootScope, $http, $q) {
+  '$rootScope', '$http', '$q', 'noUtil', 'noLogger', function($rootScope, $http, $q, Util, Logger) {
     var api, authenticated, loadSession, onError, scope, session, update;
     session = null;
     authenticated = false;
@@ -972,44 +972,66 @@ angular.module('noSession.session', []).service('noSession', [
       isAuthenticated: function() {
         return authenticated;
       },
-      login: function(username, password) {
-        var deferred;
+      login: function(obj, override) {
+        var deferred, promise;
         deferred = $q.defer();
-        $http.post(api.login, {
-          username: username,
-          password: password
-        }).success(function(data, status, headers, config) {
-          return update('login', function() {
-            session = data;
-            authenticated = true;
-            return deferred.resolve(true);
+        if (override) {
+          promise = deferred.promise;
+          update('login', function() {
+            session = Util.extend(session, obj || {});
+            return authenticated = true;
           });
-        }).error(function(data, status, headers, config) {
-          return update('error', function() {
-            onError && onError();
-            return deferred.reject(false);
+          Logger.debug('Logged in.', {
+            obj: obj,
+            session: session,
+            authenticated: authenticated
           });
-        });
+          deferred.resolve(session);
+        } else {
+          $http.post(api.login, data).success(function(data, status, headers, config) {
+            return update('login', function() {
+              session = data;
+              authenticated = true;
+              return deferred.resolve(true);
+            });
+          }).error(function(data, status, headers, config) {
+            return update('error', function() {
+              onError && onError();
+              return deferred.reject(false);
+            });
+          });
+        }
         return deferred.promise;
       },
-      signup: function(username, password) {
-        var deferred;
+      signup: function(obj, override) {
+        var deferred, promise;
         deferred = $q.defer();
-        $http.post(api.signup, {
-          username: username,
-          password: password
-        }).success(function(data, status, headers, config) {
-          return update('signup', function() {
-            session = data;
-            authenticated = true;
-            return deferred.resolve(true);
+        if (override) {
+          promise = deferred.promise;
+          update('signup', function() {
+            session = Util.extend(session, obj || {});
+            return authenticated = true;
           });
-        }).error(function(data, status, headers, config) {
-          return update('error', function() {
-            onError && onError();
-            return deferred.reject(false);
+          Logger.debug('Signed up.', {
+            obj: obj,
+            session: session,
+            authenticated: authenticated
           });
-        });
+          deferred.resolve(session);
+        } else {
+          $http.post(api.signup, data).success(function(data, status, headers, config) {
+            return update('signup', function() {
+              session = data;
+              authenticated = true;
+              return deferred.resolve(true);
+            });
+          }).error(function(data, status, headers, config) {
+            return update('error', function() {
+              onError && onError();
+              return deferred.reject(false);
+            });
+          });
+        }
         return deferred.promise;
       },
       logout: function() {
