@@ -1,8 +1,8 @@
 angular.module('noSession.session', [])
 
 .service 'noSession', [
-  '$rootScope', '$http', '$q', 'noUtil', 'noLogger'
-  ($rootScope, $http, $q, Util, Logger)->
+  '$rootScope', '$http', '$q'
+  ($rootScope, $http, $q)->
     session = null
     authenticated = false
     scope = $rootScope
@@ -71,63 +71,35 @@ angular.module('noSession.session', [])
     isAuthenticated: () ->
       authenticated
 
-    login: (obj, override) ->
+    login: (params) ->
       deferred = $q.defer()
 
-      if override
-        promise = deferred.promise
-
+      $http.post(api.login, params)
+      .success (data, status, headers, config) ->
         update 'login', () ->
-          session = Util.extend session, obj || {}
+          session = data
           authenticated = true
-
-        Logger.debug 'Logged in.',
-          obj: obj
-          session: session
-          authenticated: authenticated
-
-        deferred.resolve session
-      else
-        $http.post(api.login, data)
-        .success (data, status, headers, config) ->
-          update 'login', () ->
-            session = data
-            authenticated = true
-            deferred.resolve true
-        .error (data, status, headers, config) ->
-          update 'error', () ->
-            onError && onError()
-            deferred.reject false
+          deferred.resolve true
+      .error (data, status, headers, config) ->
+        update 'error', () ->
+          onError && onError()
+          deferred.reject false
 
       deferred.promise
 
-    signup: (obj, override) ->
+    signup: (params) ->
       deferred = $q.defer()
 
-      if override
-        promise = deferred.promise
-
+      $http.post(api.signup, params
+      ).success (data, status, headers, config) ->
         update 'signup', () ->
-          session = Util.extend session, obj || {}
+          session = data
           authenticated = true
-
-        Logger.debug 'Signed up.',
-          obj: obj
-          session: session
-          authenticated: authenticated
-
-        deferred.resolve session
-      else
-        $http.post(api.signup, data)
-        .success (data, status, headers, config) ->
-          update 'signup', () ->
-            session = data
-            authenticated = true
-            deferred.resolve true
-        .error (data, status, headers, config) ->
-          update 'error', () ->
-            onError && onError()
-            deferred.reject false
+          deferred.resolve true
+      .error (data, status, headers, config) ->
+        update 'error', () ->
+          onError && onError()
+          deferred.reject false
 
       deferred.promise
 
