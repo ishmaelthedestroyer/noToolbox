@@ -2,6 +2,8 @@
   "name": "noToolbox",
   "version": "0.0.5",
   "dependencies": {
+    },
+  "devDependencies": {
     "bootstrap": "~3.0.3",
     "angular": "~1.2.0",
     "angular-resource": "~1.2.0",
@@ -13,7 +15,5 @@
     "browser-shim": "latest",
     "jquery": "~2.1.0",
     "jquery-ui": "~1.10.4"
-    },
-  "devDependencies": {
   }
 }
