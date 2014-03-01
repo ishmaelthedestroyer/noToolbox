@@ -1,0 +1,14 @@
+{
+  "name": "bower-shim",
+  "dependencies": {},
+  "homepage": "https://github.com/ishmaelthedestroyer/browser-shim",
+  "_release": "f7fe01f6b1",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "f7fe01f6b1a15f32f3da393830ac33862c528a1b"
+  },
+  "_source": "git://github.com/ishmaelthedestroyer/browser-shim.git",
+  "_target": "*",
+  "_originalSource": "browser-shim"
+}

@@ -51,6 +51,21 @@ module.exports = (grunt) ->
 
         'bin/noToolbox.*'
       ]
+      deps:
+        js: [
+          'deps/modernizr/modernizr.js'
+          'deps/browser-shim/shim.js'
+          'deps/es5-shim/es5-shim.js'
+          'deps/jquery/jquery.js'
+          'deps/bootstrap/dist/js/bootstrap.js'
+          'deps/angular/angular.js'
+          'deps/angular-ui-router/release/angular-ui-router.js'
+          'deps/angular-resource/angular-resource.js'
+          'deps/angular-bootstrap/ui-bootstrap-tpls.js'
+        ]
+        css: [
+          'deps/bootstrap/dist/css/bootstrap.css'
+        ]
       html: [
         'html/*.html.*'
       ]
@@ -209,6 +224,7 @@ module.exports = (grunt) ->
     recess:
       src:
         src: [
+          '<%= files.deps.css %>'
           '<%= files.css %>'
         ]
         dest: '<%= dir.dist %>css/noToolbox.css'
@@ -220,8 +236,14 @@ module.exports = (grunt) ->
           zeroUnits: false
 
     concat:
+      deps:
+        src: [
+          '<%= files.deps.js %>'
+        ]
+        dest: '<%= dir.tmp %>deps.js'
       modules:
         src: [
+          '<%= dir.tmp %>deps.js'
           '<%= files.modulesCompiled %>'
         ]
         dest: '<%= dist.js %>'
@@ -260,6 +282,10 @@ module.exports = (grunt) ->
     'concurrent:dev'
   ]
 
+  grunt.registerTask 'build:deps', [
+    'concat:deps'
+  ]
+
   grunt.registerTask 'build:modules', [
     'coffeelint:modules'
     'coffee:modules'
@@ -269,7 +295,6 @@ module.exports = (grunt) ->
     'coffeecup'
 
     'clean:tmp'
-    # 'jshint:client'
   ]
 
   grunt.registerTask 'build:css', [
@@ -285,6 +310,7 @@ module.exports = (grunt) ->
     'clean:tmp'
     'clean:dist'
 
+    'build:deps'
     'build:modules'
     'build:css'
     'build:assets'
