@@ -56,7 +56,7 @@ module.exports = (grunt) ->
           'deps/modernizr/modernizr.js'
           'deps/browser-shim/shim.js'
           'deps/es5-shim/es5-shim.js'
-          'deps/jquery/jquery.js'
+          'deps/jquery/dist/jquery.js'
           'deps/bootstrap/dist/js/bootstrap.js'
           'deps/angular/angular.js'
           'deps/angular-ui-router/release/angular-ui-router.js'
