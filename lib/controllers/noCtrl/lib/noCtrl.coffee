@@ -12,7 +12,7 @@ angular.module('noCtrl', ['noNotify', 'noQueue', 'noSession'])
     $scope.notifications = Notify.list()
     $scope.queue = Queue.list()
 
-    $scope.bxState = $state
+    $scope.noState = $state
 
     $scope.loadSession = () ->
       deferred = $q.defer()
