@@ -4,7 +4,7 @@
   "dependencies": {
     },
   "devDependencies": {
-    "bootstrap": "~3.0.3",
+    "bootstrap": "latest",
     "angular": "~1.2.0",
     "angular-resource": "~1.2.0",
     "angular-bootstrap": "~0.10.0",
