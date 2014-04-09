@@ -15,5 +15,8 @@ angular.module('noErrorInterceptor', ['noNotify'])
         $q.reject response
 ])
 
-.config ($httpProvider) ->
-  $httpProvider.responseInterceptors.push 'noErrorInterceptor'
+.config [
+  '$httpProvider'
+  ($httpProvider) ->
+    $httpProvider.responseInterceptors.push 'noErrorInterceptor'
+]

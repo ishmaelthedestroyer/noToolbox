@@ -41141,9 +41141,11 @@ angular.module('noErrorInterceptor', ['noNotify']).factory('noErrorInterceptor',
       });
     };
   }
-]).config(function($httpProvider) {
-  return $httpProvider.responseInterceptors.push('noErrorInterceptor');
-});
+]).config([
+  '$httpProvider', function($httpProvider) {
+    return $httpProvider.responseInterceptors.push('noErrorInterceptor');
+  }
+]);
 
 angular.module('noEventEmitter', ['noUtil']).service('noEventEmitter', [
   'noUtil', function(util) {
