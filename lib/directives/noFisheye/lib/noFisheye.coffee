@@ -1,37 +1,40 @@
 angular.module('noFisheye', [])
 
-.directive 'nofisheye', ($document) ->
-  (scope, element, attr) ->
-    scale = attr.nofisheyescale || 0.8
-    radius = attr.nofisheyeradius || 70
+.directive 'noFisheye', [
+  '$document'
+  ($document) ->
+    (scope, element, attr) ->
+      scale = attr.noFisheyeScale || 0.8
+      radius = attr.noFisheyeRadius || 70
 
-    scale = parseFloat scale
-    radius = parseInt radius
+      scale = parseFloat scale
+      radius = parseInt radius
 
-    startWidth = element.width()
-    startHeight = element.height()
+      startWidth = element.width()
+      startHeight = element.height()
 
-    maxWidth = startWidth + (startWidth * scale)
-    maxHeight = startHeight + (startHeight * scale)
+      maxWidth = startWidth + (startWidth * scale)
+      maxHeight = startHeight + (startHeight * scale)
 
-    $document.on 'mousemove', (e) ->
-      centerX = element.offset().left + (element.width() / 2)
-      centerY = element.offset().top + (element.height() / 2)
+      $document.on 'mousemove', (e) ->
+        centerX = element.offset().left + (element.width() / 2)
+        centerY = element.offset().top + (element.height() / 2)
 
-      x = Math.abs e.pageX - centerX
-      y = Math.abs e.pageY - centerY
-      r = Math.sqrt((x * x) + (y * y))
+        x = Math.abs e.pageX - centerX
+        y = Math.abs e.pageY - centerY
+        r = Math.sqrt((x * x) + (y * y))
 
-      if r < radius
-        percent = 1 - (r / radius)
-        w = startWidth + ((maxWidth - startWidth) * percent)
-        h = startHeight + ((maxHeight - startHeight) * percent)
+        if r < radius
+          percent = 1 - (r / radius)
+          w = startWidth + ((maxWidth - startWidth) * percent)
+          h = startHeight + ((maxHeight - startHeight) * percent)
 
-        element.css
-          width: w + 'px'
-          height: h + 'px'
-      else
-        if element.width() != startWidth || element.height() != startHeight
           element.css
-            width: startWidth + 'px'
-            height: startHeight + 'px'
+            width: w + 'px'
+            height: h + 'px'
+        else
+          if element.width() != startWidth || element.height() != startHeight
+            element.css
+              width: startWidth + 'px'
+              height: startHeight + 'px'
+]

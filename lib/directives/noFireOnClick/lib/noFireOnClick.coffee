@@ -1,11 +1,13 @@
 angular.module('noFireOnClick', [])
 
-.directive 'nofireonclick', () ->
-  (scope, element, attr) ->
-    func = (e) ->
-      scope.$apply ->
-        scope.$eval attr.nofireonclick
-        e.preventDefault()
+.directive 'noFireOnClick', [
+  () ->
+    (scope, element, attr) ->
+      func = (e) ->
+        scope.$apply ->
+          scope.$eval attr.noFireOnClick
+          e.preventDefault()
 
-    element.bind 'contextmenu' , func
-    element.bind 'click',  func
+      element.bind 'contextmenu' , func
+      element.bind 'click',  func
+]

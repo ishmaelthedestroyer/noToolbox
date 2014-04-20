@@ -1,27 +1,31 @@
 angular.module('noSluggify', [])
 
-.directive 'nosluggify', ($document, $parse) ->
-  (scope, element, attr) ->
-    ngModel = $parse attr.ngModel
-    value = $parse(attr.ngValue)(scope)
+.directive 'noSluggify', [
+  '$document'
+  '$parse'
+  ($document, $parse) ->
+    (scope, element, attr) ->
+      ngModel = $parse attr.ngModel
+      value = $parse(attr.ngValue)(scope)
 
-    cb = () ->
-      scope.$apply ->
-        scope.$eval attr.nosluggify
+      cb = () ->
+        scope.$apply ->
+          scope.$eval attr.noSluggify
 
-    sluggify = (text) ->
-      return text.toLowerCase()
-      .replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
+      sluggify = (text) ->
+        return text.toLowerCase()
+        .replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
 
 
-    element.bind 'keyup', () ->
-      slug = sluggify element.val() # make slug
-      scope.$apply element.val slug # set slug
+      element.bind 'keyup', () ->
+        slug = sluggify element.val() # make slug
+        scope.$apply element.val slug # set slug
 
-      # assign slug to model
-      if attr.ngModel
-        scope.$apply () ->
-          return ngModel.assign scope, slug
+        # assign slug to model
+        if attr.ngModel
+          scope.$apply () ->
+            return ngModel.assign scope, slug
 
-      cb() # fire callback
+        cb() # fire callback
+]

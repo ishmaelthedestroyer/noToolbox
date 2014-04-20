@@ -53,7 +53,7 @@ module.exports = (grunt) ->
       ]
       deps:
         js: [
-          'deps/modernizr/modernizr.js'
+          # 'deps/modernizr/modernizr.js'
           'deps/browser-shim/shim.js'
           'deps/es5-shim/es5-shim.js'
           'deps/jquery/dist/jquery.js'
@@ -250,12 +250,12 @@ module.exports = (grunt) ->
         filter: 'isFile'
 
     uglify:
-      app:
+      modules:
         options:
-          banner: '/* <%= meta %> '
+          banner: '<%= meta %>'
         files:
-          '<%= dir.dist %>assets/js/app.min.js': [
-            '<%= dir.dist %>'
+          '<%= dir.dist %>js/noToolbox.min.js': [
+            '<%= dist.js %>'
           ]
 
     # lint *.coffee files
@@ -291,6 +291,7 @@ module.exports = (grunt) ->
     'coffee:modules'
 
     'concat:modules'
+    'uglify'
 
     'coffeecup'
 

@@ -9,6 +9,12 @@
     "angularjs",
     "utility"
   ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": ""
+    }
+  ],
   "author": "ishmaelthedestroyer",
   "dependencies": {
     "express": "~3.4.8"
@@ -18,7 +24,6 @@
     "grunt-recess": "~0.3.0",
     "grunt-contrib-clean": "~0.4.1",
     "grunt-contrib-copy": "~0.4.0",
-    "grunt-contrib-jshint": "~0.4.3",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-watch": "~0.4.0",
     "grunt-contrib-uglify": "~0.2.0",
@@ -32,6 +37,7 @@
     "grunt-bump": "~0.0.6",
     "load-grunt-tasks": "~0.2.0",
     "grunt-concurrent": "~0.4.2",
-    "grunt-nodemon": "~0.1.2"
+    "grunt-nodemon": "~0.1.2",
+    "grunt-todos": "~0.2.0"
   }
 }

@@ -1,28 +1,32 @@
 angular.module('noOnDoubleClick', [])
 
-.directive 'noondoubleclick', ($timeout) ->
-  (scope, element, attr) ->
-    element.bind 'click', (e) ->
-      if attr.noondoubleclick is 'ready'
-        scope.$apply ->
-          element.removeAttr 'noondoubleclick'
-          if attr.noondoubleclick is 'ready'
-            attr.$set 'noondoubleclick', 'false'
+.directive 'noOnDoubleClick', [
+  '$timeout'
+  ($timeout) ->
+    (scope, element, attr) ->
+      element.bind 'click', (e) ->
+        if attr.noOnDoubleClickReady and attr.noOnDoubleClickReady is 'ready'
+          scope.$apply ->
+            element.removeAttr 'noOnDoubleClickReady'
+            if attr.noOnDoubleClickReady is 'ready'
+              attr.$set 'noOnDoubleClickReady', 'false'
 
-          scope.$eval attr.noondoubleclick
-          e.preventDefault()
-      else
-        scope.$apply ->
-          attr.$set 'noondoubleclick', 'ready'
-
-        speed = attr.noondoubleclickspeed
-        if speed
-          speed = parseInt speed
+            scope.$eval attr.noOnDoubleClick
+            e.preventDefault()
         else
-          speed = 200
+          scope.$apply ->
+            attr.$set 'noOnDoubleClickReady', 'ready'
 
-        $timeout ->
-          element.removeAttr 'noondoubleclick'
-          if attr.noondoubleclick is 'ready'
-            attr.$set 'noondoubleclick', 'false'
-        , speed
+          speed = attr.noOnDoubleClickSpeed
+          if speed
+            speed = parseInt speed
+          else
+            speed = 200
+
+          $timeout ->
+            element.removeAttr 'noOnDoubleClickReady'
+            if attr.noOnDoubleClickReady is 'ready'
+              attr.$set 'noOnDoubleClickReady', 'false'
+          , speed
+]
+

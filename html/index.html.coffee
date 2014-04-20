@@ -5,7 +5,7 @@ html 'ng-controller':'bxCtrl', preventrightclick:'false', ->
     meta name:'description', content:''
     meta charset:'utf-8'
     link media:'screen', rel:'stylesheet', href: '/vendor/ngToolboxx/css/ngToolboxx.css'
-    script src:'/assets/vendor/ngToolboxx/js/ngToolboxx.js'
+    script src:'/assets/vendor/ngToolboxx/js/ngToolboxx.min.js'
 
   body '.full-screen',  ->
     div '.notification-container.ng-cloak', ->

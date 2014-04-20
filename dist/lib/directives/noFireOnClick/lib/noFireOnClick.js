@@ -1,13 +1,15 @@
-angular.module('noFireOnClick', []).directive('nofireonclick', function() {
-  return function(scope, element, attr) {
-    var func;
-    func = function(e) {
-      return scope.$apply(function() {
-        scope.$eval(attr.nofireonclick);
-        return e.preventDefault();
-      });
+angular.module('noFireOnClick', []).directive('noFireOnClick', [
+  function() {
+    return function(scope, element, attr) {
+      var func;
+      func = function(e) {
+        return scope.$apply(function() {
+          scope.$eval(attr.noFireOnClick);
+          return e.preventDefault();
+        });
+      };
+      element.bind('contextmenu', func);
+      return element.bind('click', func);
     };
-    element.bind('contextmenu', func);
-    return element.bind('click', func);
-  };
-});
+  }
+]);
