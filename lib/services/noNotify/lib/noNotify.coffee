@@ -1,7 +1,9 @@
 angular.module('noNotify', [])
 
 .service 'noNotify', [
-  '$rootScope', '$timeout', ($rootScope, $timeout) ->
+  '$rootScope'
+  '$timeout'
+  ($rootScope, $timeout) ->
     notifications = []
     scope = $rootScope
 
